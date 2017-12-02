@@ -12,44 +12,63 @@ export default class extends Phaser.State  {
 
   create () {
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 582bc9ca77abfae09e802f4ca4810b89fc4e0683
     this.walls = this.game.add.group();
     this.platforms = this.game.add.group();
+    
+    this.map = this.game.add.tilemap('tilemap');
+ 
+    //the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
+    this.map.addTilesetImage('tileset', 'tileset');
+ 
+    //create layer
+    this.backgroundLayer = this.map.createLayer('backgroundLayer');
+    this.platformsLayer = this.map.createLayer('platformsLayer');
+    this.wallsLayer = this.map.createLayer('wallsLayer');
+ 
+    this.map.setCollisionBetween(1, 600, true, 'platformsLayer');
+    this.map.setCollisionBetween(1, 600, true, 'wallsLayer');
+ 
+    //resizes the game world to match the layer dimensions
+    this.backgroundLayer.resizeWorld();
 
 
-    let ground = new Ground({
-      game: this.game,
-      x: 0,
-      y: this.game.world.height-groundProps.height,
-      asset: "ground"
-    });
+    // let ground = new Ground({
+    //   game: this.game,
+    //   x: 0,
+    //   y: this.game.world.height-groundProps.height,
+    //   asset: "ground"
+    // });
 
-    this.platforms.add(ground);
+    // this.platforms.add(ground);
 
 
-    let wall = new Wall({
-      game: this.game,
-      x: 0,
-      y: 0,
-      asset: "wall"
-    });
-    this.walls.add(wall);
+    // let wall = new Wall({
+    //   game: this.game,
+    //   x: 0,
+    //   y: 0,
+    //   asset: "wall"
+    // });
+    // this.walls.add(wall);
 
-    wall = new Wall({
-      game: this.game,
-      x: this.game.world.width-wallProps.width,
-      y :128,
-      asset: "wall"
-    });
-    this.walls.add(wall);
+    // wall = new Wall({
+    //   game: this.game,
+    //   x: this.game.world.width-wallProps.width,
+    //   y :128,
+    //   asset: "wall"
+    // });
+    // this.walls.add(wall);
 
-    wall = new Wall({
-      game: this.game,
-      x: this.game.world.width-200,
-      y : -128,
-      asset: "wall"
-    });
-    this.walls.add(wall);
+    // wall = new Wall({
+    //   game: this.game,
+    //   x: this.game.world.width-200,
+    //   y : -128,
+    //   asset: "wall"
+    // });
+    // this.walls.add(wall);
 
 
     this.player = new Player({
@@ -66,9 +85,15 @@ export default class extends Phaser.State  {
 
   update() {
     // player collisions
+<<<<<<< HEAD
     let hitPlatforms = this.game.physics.arcade.collide(this.player, this.platforms);
     let hitWalls = this.game.physics.arcade.collide(this.player, this.walls);
 
+=======
+    let hitPlatforms = this.game.physics.arcade.collide(this.player, this.platformsLayer);
+    let hitWalls = this.game.physics.arcade.collide(this.player, this.wallsLayer);
+  
+>>>>>>> 582bc9ca77abfae09e802f4ca4810b89fc4e0683
 
     //   // move lef and right
     // if (this.cursors.left.isDown) {
@@ -92,7 +117,7 @@ export default class extends Phaser.State  {
 
 
     // player jump
-    if (this.cursors.up.isDown && this.player.body.touching.down && hitPlatforms) {
+    if (this.cursors.up.isDown && this.player.body.blocked.down && hitPlatforms) {
       this.jump();
     }
 
