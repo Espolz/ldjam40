@@ -5,13 +5,17 @@ import Player, { playerProps } from '../sprites/Player'
 import Ground, { groundProps } from '../sprites/Ground'
 import Wall, { wallProps } from '../sprites/Wall'
 
-export default class extends Phaser.State {
+export default class extends Phaser.State  {
 
   init () {}
   preload () {}
 
   create () {
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 582bc9ca77abfae09e802f4ca4810b89fc4e0683
     this.walls = this.game.add.group();
     this.platforms = this.game.add.group();
     
@@ -81,9 +85,15 @@ export default class extends Phaser.State {
 
   update() {
     // player collisions
+<<<<<<< HEAD
+    let hitPlatforms = this.game.physics.arcade.collide(this.player, this.platforms);
+    let hitWalls = this.game.physics.arcade.collide(this.player, this.walls);
+
+=======
     let hitPlatforms = this.game.physics.arcade.collide(this.player, this.platformsLayer);
     let hitWalls = this.game.physics.arcade.collide(this.player, this.wallsLayer);
   
+>>>>>>> 582bc9ca77abfae09e802f4ca4810b89fc4e0683
 
 
     // player jump

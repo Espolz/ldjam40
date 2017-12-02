@@ -3,12 +3,12 @@ import Phaser from 'phaser'
 export default class extends Phaser.State{
 
   create () {
-    this.createButton(game.world.centerX, game.world.centerY, "button",
+    this.createButton(game.world.centerX, game.world.centerY, "playButton",
     function(){
       this.state.start('Game');
     });
 
-    this.createButton(game.world.centerX, game.world.centerY + 100, "button",
+    this.createButton(game.world.centerX, game.world.centerY + 100, "shopButton",
     function(){
       this.state.start('GameOver');
     });
@@ -29,7 +29,7 @@ export default class extends Phaser.State{
     button.width = 370;
     button.height = 50;
 
-    var txtPlay = game.add.text(button.x, button.y,"Play", {font:"26px Arial", fill :"#666", align:"right"});
+    var txtPlay = game.add.text(button.x, button.y , name , {font:"26px Arial", fill :"#666", align:"right"});
 
     txtPlay.anchor.setTo(0.5);
 

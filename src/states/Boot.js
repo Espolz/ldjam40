@@ -4,6 +4,7 @@ import Phaser from 'phaser'
 export default class extends Phaser.State {
   init () {
     this.stage.backgroundColor = '#EDEEC9'
+    this.game.nbCoinsPlayer = 900
     // this.fontsReady = false
     // this.fontsLoaded = this.fontsLoaded.bind(this)
   }
@@ -27,7 +28,7 @@ export default class extends Phaser.State {
     //if (this.fontsReady) {
       this.state.start('Splash');
     //}
-    
+
   }
 
   // fontsLoaded () {
