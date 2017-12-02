@@ -29,7 +29,7 @@ export default class extends Phaser.State {
     this.map.setCollisionBetween(1, 600, true, 'wallsLayer');
  
     //resizes the game world to match the layer dimensions
-    this.backgroundLayer.resizeWorld();
+    //this.backgroundLayer.resizeWorld();
 
 
     // let ground = new Ground({
@@ -84,26 +84,6 @@ export default class extends Phaser.State {
     let hitPlatforms = this.game.physics.arcade.collide(this.player, this.platformsLayer);
     let hitWalls = this.game.physics.arcade.collide(this.player, this.wallsLayer);
   
-
-    //   // move lef and right
-    // if (this.cursors.left.isDown) {
-    //   this.player.body.velocity.x = -playerProps.speed.x;
-
-    //   // right wall jump
-    //   if (this.player.body.touching.right && hitWalls) {
-    //     this.jump(playerProps.wallJump.y);
-    //     this.player.body.velocity.x = -playerProps.wallJump.x;
-    //   }
-    // } else if (this.cursors.right.isDown) {
-    //   this.player.body.velocity.x = playerProps.speed.x;
-
-    //   // left wall jump
-    //   if (this.player.body.touching.left && hitWalls) {
-    //     this.jump(playerProps.wallJump.y);
-    //     this.player.body.velocity.x = playerProps.wallJump.x;
-    //   }
-    // }
-
 
 
     // player jump
