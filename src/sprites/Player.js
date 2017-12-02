@@ -13,6 +13,7 @@ export default class Player extends Phaser.Sprite {
 		this.state = {
 			left: false,
 			right: true,
+			jumpCount: 0,
 			bonus: {
 				havePunch : false,
 				haveSlide : false,
@@ -20,13 +21,13 @@ export default class Player extends Phaser.Sprite {
 				haveShield : false,
 			},
 			coins: 0,
-			malus: 0 
+			malus: 0
 		};		
 
 	}
 
 	update() {
-		this.body.velocity.x = this.state.right ? playerProps.speed.x : -playerProps.speed.x
+		this.body.velocity.x = this.state.right ? playerProps.speed.x : -playerProps.speed.x;
 	}
 
 	addBonus(bonus) {
@@ -48,6 +49,14 @@ export default class Player extends Phaser.Sprite {
 	updateMalus(nbMalus) {
 		this.state.malus += nbMalus;
 	}
+
+	land() {
+		this.state.jumpCount = 0;
+	}
+
+	canJump() {
+		return this.state.jumpCount < playerProps.maxJumpNb;
+	}
 }
 
 let playerProps = {
@@ -59,6 +68,7 @@ let playerProps = {
 		y: 500
 	},
 	jump: 425,
+	maxJumpNb: 2,
 	gravity: {
 		y: 1000
 	},

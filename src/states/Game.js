@@ -66,38 +66,46 @@ export default class extends Phaser.State  {
     this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoin, null, this);
     this.game.physics.arcade.overlap(this.player, this.harmlessCoins, this.collectHarmlessCoin, null, this);
     this.game.physics.arcade.collide(this.player, this.deadLayer, this.dead, null, this);
+
+    if (this.hitPlatforms || this.hitWalls) {
+      this.player.land();
+    } 
   }
 
   render () {
     if (__DEV__) {
       this.game.debug.spriteInfo(this.player, 16, 16);
       this.game.debug.bodyInfo(this.player, 16, 100);
-      this.game.debug.text(`player coins : ${this.player.state.coins}, player malus : ${this.player.state.malus}`, 16, 200);
+      this.game.debug.text(`player coins : ${this.player.state.coins}, player malus : ${this.player.state.malus},  player jumpCount : ${this.player.state.jumpCount},  canJump : ${this.player.canJump()}`, 16, 200);
     }
   }
 
   jump(value = playerProps.jump) {
       this.player.body.velocity.y = -value;
+      this.player.state.jumpCount++;
   }
 
   controlJump() {
     // player jump
-    if (this.player.body.blocked.down && this.hitPlatforms) {
+    if ((this.player.body.blocked.down && this.hitPlatforms) || this.player.canJump()) {
       this.jump();
-    }
+    } 
 
     // player wall jump
-    if (this.player.state.right && this.hitWalls) {
-      this.jump(playerProps.wallJump.y);
-      this.player.body.velocity.x = -playerProps.wallJump.x;
-      this.player.state.right = !this.player.state.right;
-      this.player.state.left = !this.player.state.left;
-    } else if (this.player.state.left && this.hitWalls) {
-      this.jump(playerProps.wallJump.y);
-      this.player.body.velocity.x = playerProps.wallJump.x;
-      this.player.state.right = !this.player.state.right;
-      this.player.state.left = !this.player.state.left;
+    if (this.hitWalls) {
+      if (this.player.state.right) {
+        this.jump(playerProps.wallJump.y);
+        this.player.body.velocity.x = -playerProps.wallJump.x;
+        this.player.state.right = !this.player.state.right;
+        this.player.state.left = !this.player.state.left;
+      } else if (this.player.state.left) {
+        this.jump(playerProps.wallJump.y);
+        this.player.body.velocity.x = playerProps.wallJump.x;
+        this.player.state.right = !this.player.state.right;
+        this.player.state.left = !this.player.state.left;
+      }
     }
+    
     
 
   }
