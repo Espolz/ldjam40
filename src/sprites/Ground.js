@@ -5,6 +5,7 @@ export default class Ground extends Phaser.Sprite {
     super(game, x, y, asset);
     this.game.physics.arcade.enableBody(this);
     this.body.immovable = true;
+    this.scale.setTo(2, 1);
   }
 }
 

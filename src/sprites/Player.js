@@ -1,8 +1,6 @@
 import Phaser from 'phaser'
 import { spriteSizeFactory } from '../utils';
 
-
-
 export default class Player extends Phaser.Sprite {
 	constructor ({ game, x, y, asset }) {
 		super(game, x, y, asset);
@@ -10,6 +8,16 @@ export default class Player extends Phaser.Sprite {
 		this.scale.setTo(playerProps.scale);
 		this.body.gravity.y = playerProps.gravity.y;
 		this.body.collideWorldBounds = true;
+		this.body.velocity.x = playerProps.speed.x;
+
+		this.state = {
+			left: false,
+			right: true
+		};
+	}
+
+	update() {
+		this.body.velocity.x = this.state.right ? playerProps.speed.x : -playerProps.speed.x
 	}
 } 
 

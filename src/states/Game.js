@@ -23,6 +23,7 @@ export default class extends Phaser.State {
       y: this.game.world.height-groundProps.height,
       asset: "ground"
     });
+
     this.platforms.add(ground);
 
 
@@ -37,7 +38,15 @@ export default class extends Phaser.State {
     wall = new Wall({
       game: this.game,
       x: this.game.world.width-wallProps.width,
-      y :0,
+      y :128,
+      asset: "wall"
+    });
+    this.walls.add(wall);
+
+    wall = new Wall({
+      game: this.game,
+      x: this.game.world.width-200,
+      y : -128,
       asset: "wall"
     });
     this.walls.add(wall);
@@ -59,41 +68,54 @@ export default class extends Phaser.State {
     // player collisions
     let hitPlatforms = this.game.physics.arcade.collide(this.player, this.platforms);
     let hitWalls = this.game.physics.arcade.collide(this.player, this.walls);
+  
 
-    // player movements
-    this.player.body.velocity.x = 0;
-    //this.player.body.acceleration.x = 0;
+    //   // move lef and right
+    // if (this.cursors.left.isDown) {
+    //   this.player.body.velocity.x = -playerProps.speed.x;
 
-      // move lef and right
-    if (this.cursors.left.isDown) {
-      this.player.body.velocity.x = -playerProps.speed.x;
+    //   // right wall jump
+    //   if (this.player.body.touching.right && hitWalls) {
+    //     this.jump(playerProps.wallJump.y);
+    //     this.player.body.velocity.x = -playerProps.wallJump.x;
+    //   }
+    // } else if (this.cursors.right.isDown) {
+    //   this.player.body.velocity.x = playerProps.speed.x;
 
-      // right wall jump
-      if (this.player.body.touching.right && hitWalls) {
-        this.jump(playerProps.wallJump.y);
-        this.player.body.velocity.x = -playerProps.wallJump.x;
-      }
-    } else if (this.cursors.right.isDown) {
-      this.player.body.velocity.x = playerProps.speed.x;
+    //   // left wall jump
+    //   if (this.player.body.touching.left && hitWalls) {
+    //     this.jump(playerProps.wallJump.y);
+    //     this.player.body.velocity.x = playerProps.wallJump.x;
+    //   }
+    // }
 
-      // left wall jump
-      if (this.player.body.touching.left && hitWalls) {
-        this.jump(playerProps.wallJump.y);
-        this.player.body.velocity.x = playerProps.wallJump.x;
-      }
-    }
+
 
     // player jump
     if (this.cursors.up.isDown && this.player.body.touching.down && hitPlatforms) {
       this.jump();
     }
 
+    // player wall jump
+    if  (this.cursors.up.isDown) {
+      if (this.player.state.right && hitWalls) {
+        this.jump(playerProps.wallJump.y);
+        this.player.body.velocity.x = -playerProps.wallJump.x;
+        this.player.state.right = !this.player.state.right;
+        this.player.state.left = !this.player.state.left;
+      } else if (this.player.state.left && hitWalls) {
+        this.jump(playerProps.wallJump.y);
+        this.player.body.velocity.x = playerProps.wallJump.x;
+        this.player.state.right = !this.player.state.right;
+        this.player.state.left = !this.player.state.left;
+      }
+    }
   }
 
   render () {
     if (__DEV__) {
       this.game.debug.spriteInfo(this.player, 16, 16);
-      //this.game.debug.body(this.player);
+      this.game.debug.bodyInfo(this.player, 16, 100);
     }
   }
 
