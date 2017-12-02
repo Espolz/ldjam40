@@ -32,9 +32,11 @@ export default class extends Phaser.State  {
     this.backgroundLayer = this.map.createLayer('backgroundLayer');
     this.platformsLayer = this.map.createLayer('platformsLayer');
     this.wallsLayer = this.map.createLayer('wallsLayer');
+    this.deadLayer = this.map.createLayer('deadLayer');
 
     this.map.setCollisionBetween(1, 600, true, 'platformsLayer');
     this.map.setCollisionBetween(1, 600, true, 'wallsLayer');
+    this.map.setCollisionBetween(1, 600, true, 'deadLayer');
 
     //resizes the game world to match the layer dimensions
     this.backgroundLayer.resizeWorld();
@@ -83,7 +85,7 @@ export default class extends Phaser.State  {
     });
     this.game.add.existing(this.player);
 
-    this.createCoins(1);
+    this.createCoins(3);
     this.cursors = this.game.input.keyboard.createCursorKeys();
   }
 
@@ -93,6 +95,7 @@ export default class extends Phaser.State  {
     let hitWalls = this.game.physics.arcade.collide(this.player, this.wallsLayer);
     this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoin, null, this);
     this.game.physics.arcade.overlap(this.player, this.harmlessCoins, this.collectHarmlessCoin, null, this);
+    this.game.physics.arcade.collide(this.player, this.deadLayer, this.dead, null, this);
 
     // player jump
     if (this.cursors.up.isDown && this.player.body.blocked.down && hitPlatforms) {
@@ -176,6 +179,11 @@ export default class extends Phaser.State  {
   collectHarmlessCoin(player, coin) {
     coin.kill();
     player.updateCoins(1);
+  }
+
+  dead(player, layer) {
+    player.kill();
+    this.state.start("GameOver", true, false, this.player);
   }
 
 }

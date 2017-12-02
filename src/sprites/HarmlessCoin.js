@@ -12,5 +12,5 @@ export default class HarmlessCoin extends Coin {
 export const harmlessCoinProps = {
 	width: 32,
 	height: 32,
-	spawnLuck: 0
+	spawnLuck: 100
 };
