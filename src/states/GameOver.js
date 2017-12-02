@@ -59,4 +59,12 @@ export default class extends Phaser.State{
 
   }
 
+  createNbCoins (x,y,name, nbCoins){
+    var spriteCoins = game.add.sprite(x,y,name);
+
+    spriteCoins.anchor.setTo(0.5);
+
+    var txtCoins = game.add.text(x,y, nbCoins.parseString(), {font:"12px Arial", fill :"#666", align:"center"});
+  }
+
 }
