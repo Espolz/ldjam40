@@ -11,19 +11,21 @@ export default class extends Phaser.State {
   preload () {}
 
   create () {
+
+    
     this.walls = this.game.add.group();
     this.platforms = this.game.add.group();
 
-    
+
     let ground = new Ground({
       game: this.game,
-      x: 0, 
-      y: this.game.world.height-groundProps.height, 
+      x: 0,
+      y: this.game.world.height-groundProps.height,
       asset: "ground"
     });
     this.platforms.add(ground);
 
-    
+
     let wall = new Wall({
       game: this.game,
       x: 0,
@@ -43,8 +45,8 @@ export default class extends Phaser.State {
 
     this.player = new Player({
       game: this.game,
-      x: this.game.world.centerX, 
-      y: this.game.world.centerY, 
+      x: this.game.world.centerX,
+      y: this.game.world.centerY,
       asset: "player"
     });
     this.game.add.existing(this.player);
@@ -65,20 +67,20 @@ export default class extends Phaser.State {
       // move lef and right
     if (this.cursors.left.isDown) {
       this.player.body.velocity.x = -playerProps.speed.x;
-      
+
       // right wall jump
       if (this.player.body.touching.right && hitWalls) {
         this.jump(playerProps.wallJump.y);
         this.player.body.velocity.x = -playerProps.wallJump.x;
       }
     } else if (this.cursors.right.isDown) {
-      this.player.body.velocity.x = playerProps.speed.x; 
+      this.player.body.velocity.x = playerProps.speed.x;
 
       // left wall jump
       if (this.player.body.touching.left && hitWalls) {
         this.jump(playerProps.wallJump.y);
         this.player.body.velocity.x = playerProps.wallJump.x;
-      } 
+      }
     }
 
     // player jump
