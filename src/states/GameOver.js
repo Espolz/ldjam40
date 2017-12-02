@@ -85,7 +85,9 @@ export default class extends Phaser.State{
     if (this.game.nbCoinsPlayer - upgrade.cost >= 0){
     this.game.nbCoinsPlayer -= upgrade.cost;
     this.nbCoinsTxt.text = this.game.nbCoinsPlayer + " Coins";
-  }else{}
+  }else{
+    
+  }
   }
 
   createScore (x,y, nbScore){

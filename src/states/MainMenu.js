@@ -37,7 +37,7 @@ export default class extends Phaser.State{
 
   createControl (x,y) {
 
-    var controls = game.add.text(x,y,"Space : expendable \n Upper arrow : Jump", {font:"26px Arial", fill :"#666", align:"right"});
+    var controls = game.add.text(x,y,"CONTROL : \n Space : expendable \n Upper arrow : Jump", {font:"20px Arial", fill :"#666", align:"left"});
     controls.anchor.setTo(0.5);
 
   }

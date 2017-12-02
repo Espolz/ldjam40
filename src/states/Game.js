@@ -12,25 +12,24 @@ export default class extends Phaser.State  {
 
   create () {
 
-
     this.walls = this.game.add.group();
     this.platforms = this.game.add.group();
-    
+
     this.map = this.game.add.tilemap('tilemap');
- 
+
     //the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
     this.map.addTilesetImage('tileset', 'tileset');
- 
+
     //create layer
     this.backgroundLayer = this.map.createLayer('backgroundLayer');
     this.platformsLayer = this.map.createLayer('platformsLayer');
     this.wallsLayer = this.map.createLayer('wallsLayer');
- 
+
     this.map.setCollisionBetween(1, 600, true, 'platformsLayer');
     this.map.setCollisionBetween(1, 600, true, 'wallsLayer');
- 
+
     //resizes the game world to match the layer dimensions
-    //this.backgroundLayer.resizeWorld();
+    this.backgroundLayer.resizeWorld();
 
 
     // let ground = new Ground({
@@ -82,11 +81,29 @@ export default class extends Phaser.State  {
 
   update() {
     // player collisions
+    let hitPlatforms = this.game.physics.arcade.collide(this.player, this.platforms);
+    let hitWalls = this.game.physics.arcade.collide(this.player, this.walls);
 
 
-    let hitPlatforms = this.game.physics.arcade.collide(this.player, this.platformsLayer);
-    let hitWalls = this.game.physics.arcade.collide(this.player, this.wallsLayer);
-  
+    //   // move lef and right
+    // if (this.cursors.left.isDown) {
+    //   this.player.body.velocity.x = -playerProps.speed.x;
+
+    //   // right wall jump
+    //   if (this.player.body.touching.right && hitWalls) {
+    //     this.jump(playerProps.wallJump.y);
+    //     this.player.body.velocity.x = -playerProps.wallJump.x;
+    //   }
+    // } else if (this.cursors.right.isDown) {
+    //   this.player.body.velocity.x = playerProps.speed.x;
+
+    //   // left wall jump
+    //   if (this.player.body.touching.left && hitWalls) {
+    //     this.jump(playerProps.wallJump.y);
+    //     this.player.body.velocity.x = playerProps.wallJump.x;
+    //   }
+    // }
+
 
 
     // player jump

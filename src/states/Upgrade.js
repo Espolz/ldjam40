@@ -7,4 +7,6 @@ export default class extends Phaser.State{
     this.cost = cost;
     this.name = name;
   }
+
+  
 }

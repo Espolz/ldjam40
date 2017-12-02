@@ -16,7 +16,6 @@ export default class extends Phaser.State {
     this.load.image('player', './assets/images/pig.png');
     this.load.image('ground', './assets/images/ground.png');
     this.load.image('wall', './assets/images/wall.png');
-
     this.load.image('playButton','./assets/images/buttons/playButton.png');
     this.load.image('retryButton', './assets/images/buttons/retryButton.png');
     this.load.image('shopButton', './assets/images/buttons/shopButton.png');
