@@ -19,12 +19,12 @@ export default class extends Phaser.State {
     this.load.image('playButton','./assets/images/buttons/playButton.png');
     this.load.image('retryButton', './assets/images/buttons/retryButton.png');
     this.load.image('shopButton', './assets/images/buttons/shopButton.png');
-    this.load.image('upgrade1', './assets/images/upgradeIcon/iconUpgrade1.png');
-    this.load.image('upgrade2', './assets/images/upgradeIcon/iconUpgrade2.png');
-    this.load.image('upgrade3', './assets/images/upgradeIcon/iconUpgrade3.png');
-    this.load.image('upgrade4', './assets/images/upgradeIcon/iconUpgrade4.png');
-    this.load.image('upgrade5', './assets/images/upgradeIcon/iconUpgrade5.png');
-    this.load.image('upgrade6', './assets/images/upgradeIcon/iconUpgrade6.png');
+    this.load.image('Punch', './assets/images/upgradeIcon/iconPunch.png');
+    this.load.image('Double Jump', './assets/images/upgradeIcon/iconDoubleJump.png');
+    this.load.image('Slide', './assets/images/upgradeIcon/iconSlide.png');
+    this.load.image('Shield', './assets/images/upgradeIcon/iconShield.png');
+    this.load.image('Free Coin', './assets/images/upgradeIcon/iconFreeCoin.png');
+    this.load.image('Pills', './assets/images/upgradeIcon/iconPills.png');
     this.load.image('coin', './assets/images/coin.png');
     this.load.image('harmlessCoin', './assets/images/harmlessCoin.png');
 

@@ -1,23 +1,30 @@
 import Phaser from 'phaser'
-import Upgrade from './Upgrade'
+import Upgrade from '../model/Upgrade'
 
 export default class extends Phaser.State{
 
+  init (player) {
+    this.player = player;
+  }
+
+  preload () {
+    var upgrade1 = new Upgrade(this.game.costGlobal,"Punch");
+    var upgrade2 = new Upgrade(this.game.costGlobal,"Slide");
+    var upgrade3 = new Upgrade(this.game.costGlobal,"Shield");
+    var upgrade4 = new Upgrade(this.game.costGlobal,"DoubleJump");
+    var upgrade5 = new Upgrade(this.game.costGlobal,"FreeCoin");
+    var upgrade6 = new Upgrade(2,"Pills");
+  }
   create () {
     this.createTextGameOver(game.world.centerX, game.world.centerY - 200);
     this.createTextUpgrade(game.world.centerX, game.world.centerY - 50);
-    var upgrade1 = new Upgrade(25,"Gant de boxe");
-    var upgrade2 = new Upgrade(25,"Glissade");
-    var upgrade3 = new Upgrade(25,"Bouclier");
-    var upgrade4 = new Upgrade(25,"Double saut");
-    var upgrade5 = new Upgrade(25,"Piece benine");
-    var upgrade6 = new Upgrade(25,"Supprimeur piece");
     this.nbCoinsTxt = this.createNbCoins(game.world.centerX + 300 , game.world.centerY - 200, "coin", this.game.nbCoinsPlayer);
-    this.createUpgradeButton(game.world.centerX-128, game.world.centerY, "upgrade1", () => this.buyUpgrade(upgrade1));
-    this.createUpgradeButton(game.world.centerX-64, game.world.centerY, "upgrade2", () => this.buyUpgrade(upgrade2));
-    this.createUpgradeButton(game.world.centerX, game.world.centerY, "upgrade3", () => this.buyUpgrade(upgrade3));
-    this.createUpgradeButton(game.world.centerX+64, game.world.centerY, "upgrade4", () => this.buyUpgrade(upgrade4));
-    this.createUpgradeButton(game.world.centerX+128, game.world.centerY, "upgrade5", () => this.buyUpgrade(upgrade5));
+    this.createUpgradeButton(game.world.centerX-180, game.world.centerY, "Punch", () => this.buyUpgrade(upgrade1));
+    this.createUpgradeButton(game.world.centerX-108, game.world.centerY, "Slide", () => this.buyUpgrade(upgrade2));
+    this.createUpgradeButton(game.world.centerX-36, game.world.centerY, "Shield", () => this.buyUpgrade(upgrade3));
+    this.createUpgradeButton(game.world.centerX+36, game.world.centerY, "Double Jump", () => this.buyUpgrade(upgrade4));
+    this.createUpgradeButton(game.world.centerX+108, game.world.centerY, "Free Coin", () => this.buyUpgrade(upgrade5));
+    this.createUpgradeButton(game.world.centerX+180, game.world.centerY, "Pills", () => this.buyUpgrade(upgrade6));
     this.createButtonRetry(game.world.centerX, game.world.centerY + 200, "retryButton",
     function(){
       this.state.start('Game');
@@ -52,6 +59,8 @@ export default class extends Phaser.State{
 
     txtUpgrade.anchor.setTo(0.5);
 
+
+
   }
 
   createButtonRetry (x,y,name,callback) {
@@ -85,8 +94,12 @@ export default class extends Phaser.State{
     if (this.game.nbCoinsPlayer - upgrade.cost >= 0){
     this.game.nbCoinsPlayer -= upgrade.cost;
     this.nbCoinsTxt.text = this.game.nbCoinsPlayer + " Coins";
-  }else{
-    
+    //this.player.addBonus(upgrade)
+    if (upgrade.nom != "Pills"){
+      this.game.costGlobal += 5;
+    }
+    }else{
+
   }
   }
 
@@ -104,5 +117,4 @@ export default class extends Phaser.State{
   render () {
     this.game.debug.text("Test :" + this.game.nbCoinsPlayer, 16,16);
   }
-
 }
