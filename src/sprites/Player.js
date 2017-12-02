@@ -19,7 +19,8 @@ export default class Player extends Phaser.Sprite {
 				haveDoubleJump : false,
 				haveShield : false,
 			},
-			coins: 0
+			coins: 0,
+			malus: 0 
 		};		
 
 	}
@@ -42,6 +43,10 @@ export default class Player extends Phaser.Sprite {
 
 	updateCoins(nbCoins) {
 		this.state.coins += nbCoins;
+	}
+
+	updateMalus(nbMalus) {
+		this.state.malus += nbMalus;
 	}
 }
 
