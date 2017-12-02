@@ -12,3 +12,5 @@ export function spriteSizeFactory(spriteProps, width = 0, height = 0) {
 		height: Math.floor(scale * height),
 	});
 }
+
+export const randomRange = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
