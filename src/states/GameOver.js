@@ -14,7 +14,9 @@ export default class extends Phaser.State{
     function(){
       this.state.start('Game');
     });
+    this.createNbCoins (game.world.centerX - 200 , game.world.centerY - 200, "coins", 50);
   }
+
 
   update () {
 
@@ -60,11 +62,15 @@ export default class extends Phaser.State{
   }
 
   createNbCoins (x,y,name, nbCoins){
+
     var spriteCoins = game.add.sprite(x,y,name);
+    spriteCoins.width = 32;
+    spriteCoins.height = 32;
+
+    var txtCoins = game.add.text(spriteCoins.x,spriteCoins.y+100, nbCoins.toString(), {font:"12px Arial", fill :"#666", align:"right"});
 
     spriteCoins.anchor.setTo(0.5);
-
-    var txtCoins = game.add.text(x,y, nbCoins.parseString(), {font:"12px Arial", fill :"#666", align:"center"});
+    txtCoins.anchor.setTo(0,5);
   }
 
 }

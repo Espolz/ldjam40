@@ -19,7 +19,7 @@ export default class extends Phaser.State {
     this.load.image('button','./assets/images/buttonVtest2.png');
     this.load.image('buttonRetry', './assets/images/buttonRetryVtest2.png');
     this.load.image('upgrade', './assets/images/iconUpgradeVtest.png');
-    this.load.image('coins', './assets/images/piece');
+    this.load.image('coins', './assets/images/piece.png');
   }
 
   create () {
