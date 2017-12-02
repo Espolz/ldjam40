@@ -19,6 +19,10 @@ export default class extends Phaser.State {
     this.load.image('button','./assets/images/buttonVtest2.png');
     this.load.image('buttonRetry', './assets/images/buttonRetryVtest2.png');
     this.load.image('upgrade', './assets/images/iconUpgradeVtest.png');
+
+    // tilemap
+    this.load.tilemap('tilemap', './assets/images/tilemap/tilemap.json', null, Phaser.Tilemap.TILED_JSON);
+    this.load.image('tileset', './assets/images/tilemap/tileset.png');
   }
 
   create () {
