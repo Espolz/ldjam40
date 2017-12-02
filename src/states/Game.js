@@ -5,6 +5,7 @@ import Player, { playerProps } from '../sprites/Player'
 import Ground, { groundProps } from '../sprites/Ground'
 import Wall, { wallProps } from '../sprites/Wall'
 import Coin, { coinProps } from '../sprites/Coin'
+import HarmlessCoin, { harmlessCoinProps } from '../sprites/HarmlessCoin'
 
 import * as tilemap from '../utils/tilemap'
 import { randomRange } from '../utils'
@@ -18,7 +19,9 @@ export default class extends Phaser.State  {
 
     this.walls = this.game.add.group();
     this.platforms = this.game.add.group();
+
     this.coins = this.game.add.group();
+    this.harmlessCoins = this.game.add.group();
 
     this.map = this.game.add.tilemap('tilemap');
 
@@ -88,7 +91,8 @@ export default class extends Phaser.State  {
     // player collisions
     let hitPlatforms = this.game.physics.arcade.collide(this.player, this.platformsLayer);
     let hitWalls = this.game.physics.arcade.collide(this.player, this.wallsLayer);
-
+    this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoins, null, this);
+    this.game.physics.arcade.overlap(this.player, this.harmlessCoins, this.collectCoins, null, this);
 
     // player jump
     if (this.cursors.up.isDown && this.player.body.blocked.down && hitPlatforms) {
@@ -137,16 +141,34 @@ export default class extends Phaser.State  {
         rand = randomRange(0, result.length - 1);
       } while (oldRands.includes(rand));
 
-      coin = new Coin({
-        game: this.game,
-        x: result[rand].x,
-        y: result[rand].y,
-        asset: result[rand].properties.sprite
-      });
-      this.game.add.existing(coin);
+      if (result[rand].properties.sprite == "coin") {
+        coin = new Coin({
+          game: this.game,
+          x: result[rand].x,
+          y: result[rand].y,
+          asset: result[rand].properties.sprite
+        });
+        this.coins.add(coin);
+      } else if (result[rand].properties.sprite == "harmlessCoin") {
+        if (randomRange(1, 100) <= harmlessCoinProps.spawnLuck) {
+          coin = new HarmlessCoin({
+            game: this.game,
+            x: result[rand].x,
+            y: result[rand].y,
+            asset: result[rand].properties.sprite
+          });
+          this.harmlessCoins.add(coin);
+        } else if (number == 1) {
+          number++;
+        }
+      }
 
       oldRands.push(rand);
     }
+  }
+
+  collectCoins(player, coin) {
+    coin.kill();
   }
 
 }
