@@ -12,29 +12,19 @@ export default class Player extends Phaser.Sprite {
 
 		this.state = {
 			left: false,
-			right: true
-		};
-
-		//Upgrades
-		this.coins = 0;
-		this.state = {
+			right: true,
 			havePunch : false,
-			noPunch : true
-		};
-		this.state = {
+			noPunch : true,
 			haveSlide : false,
-			noSlide : true
-		};
-		this.state = {
+			noSlide : true,
 			haveDoubleJump : false,
-			noDoubleJump : true
-		};
-
-		this.state = {
+			noDoubleJump : true,
 			haveShield : false,
 			noShield : true
 		};
 
+		//Upgrades
+		this.coins = 0;
 
 	}
 
