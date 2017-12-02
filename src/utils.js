@@ -3,3 +3,12 @@ export const centerGameObjects = (objects) => {
     object.anchor.setTo(0.5)
   })
 }
+
+
+export function spriteSizeFactory(spriteProps, width = 0, height = 0) {
+	const scale = spriteProps.scale || 1;
+	return Object.assign({}, spriteProps, {
+		width: Math.floor(scale * width),
+		height: Math.floor(scale * height),
+	});
+}
