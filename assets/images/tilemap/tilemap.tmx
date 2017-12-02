@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.07.19" orientation="orthogonal" renderorder="right-down" width="30" height="17" tilewidth="32" tileheight="32" nextobjectid="1">
+<map version="1.0" tiledversion="2017.07.19" orientation="orthogonal" renderorder="right-down" width="30" height="17" tilewidth="32" tileheight="32" nextobjectid="6">
  <tileset firstgid="1" name="tileset" tilewidth="32" tileheight="32" tilecount="5" columns="5">
   <image source="tileset.png" width="160" height="32"/>
  </tileset>
+ <objectgroup name="objectsLayer">
+  <object id="1" gid="4" x="228" y="501.333" width="32" height="32">
+   <properties>
+    <property name="sprite" value="coin"/>
+    <property name="type" value="itemSpawner"/>
+   </properties>
+  </object>
+  <object id="5" gid="4" x="856" y="266.667" width="32" height="32">
+   <properties>
+    <property name="sprite" value="coin"/>
+    <property name="type" value="itemSpawner"/>
+   </properties>
+  </object>
+ </objectgroup>
  <layer name="backgroundLayer" width="30" height="17">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

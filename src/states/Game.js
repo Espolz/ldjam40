@@ -4,6 +4,10 @@ import Phaser from 'phaser'
 import Player, { playerProps } from '../sprites/Player'
 import Ground, { groundProps } from '../sprites/Ground'
 import Wall, { wallProps } from '../sprites/Wall'
+import Coin, { coinProps } from '../sprites/Coin'
+
+import * as tilemap from '../utils/tilemap'
+import { randomRange } from '../utils'
 
 export default class extends Phaser.State  {
 
@@ -14,6 +18,7 @@ export default class extends Phaser.State  {
 
     this.walls = this.game.add.group();
     this.platforms = this.game.add.group();
+    this.coins = this.game.add.group();
 
     this.map = this.game.add.tilemap('tilemap');
 
@@ -75,35 +80,14 @@ export default class extends Phaser.State  {
     });
     this.game.add.existing(this.player);
 
-
+    this.createCoins(1);
     this.cursors = this.game.input.keyboard.createCursorKeys();
   }
 
   update() {
     // player collisions
-    let hitPlatforms = this.game.physics.arcade.collide(this.player, this.platforms);
-    let hitWalls = this.game.physics.arcade.collide(this.player, this.walls);
-
-
-    //   // move lef and right
-    // if (this.cursors.left.isDown) {
-    //   this.player.body.velocity.x = -playerProps.speed.x;
-
-    //   // right wall jump
-    //   if (this.player.body.touching.right && hitWalls) {
-    //     this.jump(playerProps.wallJump.y);
-    //     this.player.body.velocity.x = -playerProps.wallJump.x;
-    //   }
-    // } else if (this.cursors.right.isDown) {
-    //   this.player.body.velocity.x = playerProps.speed.x;
-
-    //   // left wall jump
-    //   if (this.player.body.touching.left && hitWalls) {
-    //     this.jump(playerProps.wallJump.y);
-    //     this.player.body.velocity.x = playerProps.wallJump.x;
-    //   }
-    // }
-
+    let hitPlatforms = this.game.physics.arcade.collide(this.player, this.platformsLayer);
+    let hitWalls = this.game.physics.arcade.collide(this.player, this.wallsLayer);
 
 
     // player jump
@@ -131,10 +115,38 @@ export default class extends Phaser.State  {
     if (__DEV__) {
       this.game.debug.spriteInfo(this.player, 16, 16);
       this.game.debug.bodyInfo(this.player, 16, 100);
+      //this.game.debug.text(`x: ${this.result[0].x}, y: ${this.result[0].y}, o: ${this.result}`, 16, 200);
     }
   }
 
   jump(value = playerProps.jump) {
       this.player.body.velocity.y = -value;
   }
+
+  createCoins(number) {
+    if (number > 3) {
+      number = 3;
+    }
+
+    let result = tilemap.findObjectsByType('coinSpawner', this.map, 'objectsLayer');
+    let coin, rand, oldRands = [];
+
+
+    for (let i = 0; i < number && i < result.length; i++) {
+      do {
+        rand = randomRange(0, result.length - 1);
+      } while (oldRands.includes(rand));
+
+      coin = new Coin({
+        game: this.game,
+        x: result[rand].x,
+        y: result[rand].y,
+        asset: result[rand].properties.sprite
+      });
+      this.game.add.existing(coin);
+
+      oldRands.push(rand);
+    }
+  }
+
 }

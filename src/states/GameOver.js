@@ -12,7 +12,7 @@ export default class extends Phaser.State{
     var upgrade4 = new Upgrade(25,"Double saut");
     var upgrade5 = new Upgrade(25,"Piece benine");
     var upgrade6 = new Upgrade(25,"Supprimeur piece");
-    this.nbCoinsTxt = this.createNbCoins(game.world.centerX + 300 , game.world.centerY - 200, "coins", this.game.nbCoinsPlayer);
+    this.nbCoinsTxt = this.createNbCoins(game.world.centerX + 300 , game.world.centerY - 200, "coin", this.game.nbCoinsPlayer);
     this.createUpgradeButton(game.world.centerX-128, game.world.centerY, "upgrade1", () => this.buyUpgrade(upgrade1));
     this.createUpgradeButton(game.world.centerX-64, game.world.centerY, "upgrade2", () => this.buyUpgrade(upgrade2));
     this.createUpgradeButton(game.world.centerX, game.world.centerY, "upgrade3", () => this.buyUpgrade(upgrade3));
