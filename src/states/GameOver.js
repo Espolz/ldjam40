@@ -13,15 +13,19 @@ export default class extends Phaser.State {
   }
   create () {
     this.player = this.game.state.states["Game"].player;
-
+    this.game.upgrade5.isBuy = false;
     this.i = 0;
     var tabUpgrade = [];
     this.createTextGameOver(game.world.centerX, game.world.centerY - 200);
     this.createTextUpgrade(game.world.centerX, game.world.centerY - 50);
     this.nbCoinsTxt = this.createNbCoins(game.world.centerX + 300 , game.world.centerY - 200, "coin", this.game.nbCoinsPlayer);
+    if (this.game.upgrade1.isBuy == false)
     this.createUpgradeButton(game.world.centerX-144, game.world.centerY, "Punch", () => this.buyUpgrade(this.game.upgrade1),this.i);
+    if (this.game.upgrade2.isBuy == false)
     this.createUpgradeButton(game.world.centerX-72, game.world.centerY, "Slide", () => this.buyUpgrade(this.game.upgrade2),this.i);
+    if (this.game.upgrade3.isBuy == false)
     this.createUpgradeButton(game.world.centerX, game.world.centerY, "Shield", () => this.buyUpgrade(this.game.upgrade3),this.i);
+    if (this.game.upgrade4.isBuy == false)
     this.createUpgradeButton(game.world.centerX+72, game.world.centerY, "Double Jump", () => this.buyUpgrade(this.game.upgrade4),this.i);
     this.createUpgradeButton(game.world.centerX+144, game.world.centerY, "Pills", () => this.buyUpgrade(this.game.upgrade5),this.i);
     this.createButtonRetry(game.world.centerX, game.world.centerY + 200, "retryButton",
