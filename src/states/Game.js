@@ -174,7 +174,6 @@ export default class extends Phaser.State  {
     coin.kill();
     player.updateCoins(1);
     player.updateMalus(1);
-    this.game.camera.flash(0xffffff, 8000);
     this.event = this.effectAdder();
   }
 
