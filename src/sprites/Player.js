@@ -10,6 +10,15 @@ export default class Player extends Phaser.Sprite {
 		this.body.collideWorldBounds = true;
 		this.body.velocity.x = playerProps.speed.x;
 
+		//Adding the visual effects that will disturb the player
+		var repetitiveFlash = {
+			isActivated: false,
+			effect: function(){ game.time.events.loop(Phaser.Timer.SECOND, function(){ game.camera.flash(0x00000, 500); }, this) } }
+			var screenshakePerma = {
+			isActivated: false,
+			effect: function(){game.time.events.loop(Phaser.Timer.SECOND, function(){ game.camera.shake(0.02, 300); }, this) } }
+
+		var effectList = [repetitiveFlash, screenshakePerma];
 		this.state = {
 			left: false,
 			right: true,
@@ -21,8 +30,9 @@ export default class Player extends Phaser.Sprite {
 				haveShield : false,
 			},
 			coins: 0,
-			malus: 0
-		};		
+			malus: 0,
+			effectList: effectList
+		};
 
 	}
 
@@ -68,7 +78,7 @@ let playerProps = {
 		y: 500
 	},
 	jump: 425,
-	bumperJump: 600,  
+	bumperJump: 600,
 	maxJumpNb: 2,
 	gravity: {
 		y: 1000
