@@ -10,12 +10,14 @@ import HarmlessCoin, { harmlessCoinProps } from '../sprites/HarmlessCoin'
 import * as tilemap from '../utils/tilemap'
 import { randomRange } from '../utils'
 
+
 export default class extends Phaser.State  {
 
   init () {}
   preload () {}
 
   create () {
+    this.oldWBounds = Object.assign({}, this.game.world.bounds);
 
     this.walls = this.game.add.group();
     this.platforms = this.game.add.group();
@@ -39,14 +41,15 @@ export default class extends Phaser.State  {
     this.map.setCollisionBetween(1, 600, true, 'deadLayer');
 
     //resizes the game world to match the layer dimensions
-    this.backgroundLayer.resizeWorld();
-    tilemap.moveTilemapToXY(this.map, 250, 0);
+    //tilemap.moveTilemapToXY(this.map, 250, 0);
+    //this.backgroundLayer.resizeWorld();
 
+    this.game.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 
     this.player = new Player({
       game: this.game,
-      x: this.game.world.centerX,
-      y: this.game.world.centerY,
+      x: 10,
+      y: 10,
       asset: "player"
     });
     this.game.add.existing(this.player);
@@ -67,24 +70,34 @@ export default class extends Phaser.State  {
     this.hitWalls = this.game.physics.arcade.collide(this.player, this.wallsLayer);
     this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoin, null, this);
     this.game.physics.arcade.overlap(this.player, this.harmlessCoins, this.collectHarmlessCoin, null, this);
-    this.game.physics.arcade.collide(this.player, this.deadLayer, this.dead, null, this);
+    this.game.physics.arcade.collide(this.player, this.deadLayer, () => this.dead(), null, this);
 
-    if (this.hitPlatforms || this.hitWalls) {
+    if ((this.hitPlatforms && this.player.body.blocked.down) || this.hitWalls) {
       this.player.land();
     } 
+
+    this.controlCamera();
+    //this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
+    if (this.player.x + playerProps.width/2 < this.game.camera.x) {
+        this.dead();
+    }
   }
 
   render () {
     if (__DEV__) {
       this.game.debug.spriteInfo(this.player, 16, 16);
       this.game.debug.bodyInfo(this.player, 16, 100);
-      this.game.debug.text(`player coins : ${this.player.state.coins}, player malus : ${this.player.state.malus},  player jumpCount : ${this.player.state.jumpCount},  canJump : ${this.player.canJump()}`, 16, 200);
+      this.game.debug.text(`player coins : ${this.player.state.coins}, player malus : ${this.player.state.malus},  player jumpCount : ${this.player.state.jumpCount},  canJump : ${this.player.canJump()}, oldWBounds : ${this.oldWBounds.width}`, 16, 200);
     }
+  }
+
+  controlCamera(cameraSpeed = playerProps.scrollSpeed.x)  {
+    this.game.camera.x += cameraSpeed;
   }
 
   jump(value = playerProps.jump) {
       this.player.body.velocity.y = -value;
-      this.player.state.jumpCount++;
+      this.player.state.jumpCount++;  
   }
 
   controlJump() {
@@ -107,8 +120,6 @@ export default class extends Phaser.State  {
         this.player.state.left = !this.player.state.left;
       }
     }
-    
-    
 
   }
 
@@ -163,9 +174,15 @@ export default class extends Phaser.State  {
     player.updateCoins(1);
   }
 
-  dead(player, layer) {
-    player.kill();
-    this.state.start("GameOver", true, false, this.player);
+  reset() {
+    this.game.world.setBounds(this.oldWBounds.x, this.oldWBounds.y, this.oldWBounds.width, this.oldWBounds.height);    
   }
 
+  dead() {
+    this.player.kill();
+    this.reset();
+    this.state.start("GameOver", true, false, this.player);
+  }
 }
+
+

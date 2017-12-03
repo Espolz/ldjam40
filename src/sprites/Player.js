@@ -72,6 +72,9 @@ let playerProps = {
 	gravity: {
 		y: 1000
 	},
+	scrollSpeed: {
+		x: 3
+	},
 	scale: 1
 };
 
