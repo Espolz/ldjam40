@@ -40,6 +40,8 @@ export default class extends Phaser.State  {
 
     //resizes the game world to match the layer dimensions
     this.backgroundLayer.resizeWorld();
+    tilemap.moveTilemapToXY(this.map, 250, 0);
+
 
     this.player = new Player({
       game: this.game,

@@ -23,6 +23,8 @@ export default class extends Phaser.State {
 
     this.load.image('loaderBg', './assets/images/loader-bg.png');
     this.load.image('loaderBar', './assets/images/loader-bar.png');
+    this.scale.pageAlignHorizontally = true;
+    this.scale.pageAlignVertically = true;
   }
 
   render () {
