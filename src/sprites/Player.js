@@ -68,6 +68,7 @@ let playerProps = {
 		y: 500
 	},
 	jump: 425,
+	bumperJump: 600,  
 	maxJumpNb: 2,
 	gravity: {
 		y: 1000

@@ -35,10 +35,12 @@ export default class extends Phaser.State  {
     this.platformsLayer = this.map.createLayer('platformsLayer');
     this.wallsLayer = this.map.createLayer('wallsLayer');
     this.deadLayer = this.map.createLayer('deadLayer');
+    this.bumperLayer = this.map.createLayer('bumperLayer');
 
     this.map.setCollisionBetween(1, 600, true, 'platformsLayer');
     this.map.setCollisionBetween(1, 600, true, 'wallsLayer');
     this.map.setCollisionBetween(1, 600, true, 'deadLayer');
+    this.map.setCollisionBetween(1, 600, true, 'bumperLayer');
 
     //resizes the game world to match the layer dimensions
     //tilemap.moveTilemapToXY(this.map, 250, 0);
@@ -71,6 +73,7 @@ export default class extends Phaser.State  {
     this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoin, null, this);
     this.game.physics.arcade.overlap(this.player, this.harmlessCoins, this.collectHarmlessCoin, null, this);
     this.game.physics.arcade.collide(this.player, this.deadLayer, () => this.dead(), null, this);
+    this.game.physics.arcade.collide(this.player, this.bumperLayer, () => this.jump(playerProps.bumperJump), null, this);
 
     if ((this.hitPlatforms && this.player.body.blocked.down) || this.hitWalls) {
       this.player.land();
