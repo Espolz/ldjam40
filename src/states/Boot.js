@@ -6,6 +6,8 @@ export default class extends Phaser.State {
     this.stage.backgroundColor = '#EDEEC9'
     this.game.nbCoinsPlayer = 900
     this.game.costGlobal = 10
+    this.game.txtUpgradePrice = 0
+    this.game.tabUpgrade = []
     // this.fontsReady = false
     // this.fontsLoaded = this.fontsLoaded.bind(this)
   }
