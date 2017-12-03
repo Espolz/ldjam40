@@ -205,13 +205,11 @@ export default class extends Phaser.State  {
     }
     if(this.player.state.malus > 3 && this.player.state.malus < 6){
       var selector = randomRange(3, 5);
-      if(this.player.state.effectList[selector].isActivated == false)
-      return this.player.state.effectList[selector].effect();
+      return this.setFilter(3, 5, selector);
     }
     if(this.player.state.malus > 6){
       var selector = randomRange(6, 10);
-      if(this.player.state.effectList[selector].isActivated == false)
-      return this.player.state.effectList[selector].effect();
+      return this.setFilter(6, 10, selector);
     }
   }
 

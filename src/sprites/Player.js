@@ -14,11 +14,11 @@ export default class Player extends Phaser.Sprite {
 		var repetitiveFlash = {
 			isActivated: false,
 			effect: function(){ game.time.events.loop(Phaser.Timer.SECOND, function(){     game.camera.flash(0xffffff, 8000); }, this) } }
-			var screenshakePerma = {
+			var screenshake = {
 			isActivated: false,
 			effect: function(){game.time.events.loop(Phaser.Timer.SECOND, function(){ game.camera.shake(0.02, 300); }, this) } }
 
-		var effectList = [repetitiveFlash, screenshakePerma];
+		var effectList = [repetitiveFlash, screenshake];
 		this.state = {
 			left: false,
 			right: true,
