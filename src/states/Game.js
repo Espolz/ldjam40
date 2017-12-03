@@ -77,7 +77,7 @@ export default class extends Phaser.State  {
 
     if ((this.hitPlatforms && this.player.body.blocked.down) || this.hitWalls) {
       this.player.land();
-    } 
+    }
 
     this.controlCamera();
     //this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
@@ -100,14 +100,14 @@ export default class extends Phaser.State  {
 
   jump(value = playerProps.jump) {
       this.player.body.velocity.y = -value;
-      this.player.state.jumpCount++;  
+      this.player.state.jumpCount++;
   }
 
   controlJump() {
     // player jump
     if ((this.player.body.blocked.down && this.hitPlatforms) || this.player.canJump()) {
       this.jump();
-    } 
+    }
 
     // player wall jump
     if (this.hitWalls) {
@@ -178,14 +178,11 @@ export default class extends Phaser.State  {
   }
 
   reset() {
-    this.game.world.setBounds(this.oldWBounds.x, this.oldWBounds.y, this.oldWBounds.width, this.oldWBounds.height);    
+    this.game.world.setBounds(this.oldWBounds.x, this.oldWBounds.y, this.oldWBounds.width, this.oldWBounds.height);
   }
 
   dead() {
-    this.player.kill();
     this.reset();
-    this.state.start("GameOver", true, false, this.player);
+    this.state.start("GameOver");
   }
 }
-
-

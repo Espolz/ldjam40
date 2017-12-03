@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import Upgrade from '../model/Upgrade'
 //import WebFont from 'webfontloader'
 
 export default class extends Phaser.State {
@@ -8,6 +9,11 @@ export default class extends Phaser.State {
     this.game.costGlobal = 10
     this.game.txtUpgradePrice = 0
     this.game.tabUpgrade = []
+    this.game.upgrade1 = new Upgrade(this.game.costGlobal,"Punch")
+    this.game.upgrade2 = new Upgrade(this.game.costGlobal,"Slide")
+    this.game.upgrade3 = new Upgrade(this.game.costGlobal,"Shield")
+    this.game.upgrade4 = new Upgrade(this.game.costGlobal,"DoubleJump")
+    this.game.upgrade5 = new Upgrade(2,"Pills")
     // this.fontsReady = false
     // this.fontsLoaded = this.fontsLoaded.bind(this)
   }
