@@ -86,7 +86,7 @@ export default class extends Phaser.State  {
     this.controlCamera();
     //this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
     if (this.player.x + playerProps.width/2 < this.game.camera.x) {
-        this.dead();
+      this.dead();
     }
   }
 
@@ -103,8 +103,8 @@ export default class extends Phaser.State  {
   }
 
   jump(value = playerProps.jump) {
-      this.player.body.velocity.y = -value;
-      this.player.state.jumpCount++;
+    this.player.body.velocity.y = -value;
+    this.player.state.jumpCount++;
   }
 
   controlJump() {
@@ -174,11 +174,46 @@ export default class extends Phaser.State  {
     coin.kill();
     player.updateCoins(1);
     player.updateMalus(1);
+    this.game.camera.flash(0xffffff, 8000);
+    this.event = this.effectAdder();
   }
 
   collectHarmlessCoin(player, coin) {
     coin.kill();
     player.updateCoins(1);
+    this.event = game.time.events.pause();
+  }
+
+  setFilter(min, max, index){
+    if(this.player.state.effectList[index].isActivated == true){
+      var temp_eff_found = false;
+      for(var i = min; (temp_eff_found == false) && (i<=max); i++){
+        if(this.player.state.effectList[i].isActivated == false){
+          temp_eff_found = true;
+          return this.player.state.effectList[i].effect();
+        }
+      }
+    }else{
+      return this.player.state.effectList[index].effect();
+    }
+  }
+
+  effectAdder(){
+    if(this.player.state.malus < 3){
+      // a random number between min (inclusive) and max (exclusive)
+      var selector = randomRange(0, 2);
+      return this.setFilter(0, 2, selector);
+    }
+    if(this.player.state.malus > 3 && this.player.state.malus < 6){
+      var selector = randomRange(3, 5);
+      if(this.player.state.effectList[selector].isActivated == false)
+      return this.player.state.effectList[selector].effect();
+    }
+    if(this.player.state.malus > 6){
+      var selector = randomRange(6, 10);
+      if(this.player.state.effectList[selector].isActivated == false)
+      return this.player.state.effectList[selector].effect();
+    }
   }
 
   reset() {
