@@ -64,6 +64,10 @@ export default class extends Phaser.State  {
 
     this.hitPlatforms = false;
     this.hitWalls = false;
+
+    this.musicJeu = game.add.audio('music');
+
+    this.musicJeu.play();
   }
 
   update() {
@@ -183,6 +187,7 @@ export default class extends Phaser.State  {
 
   dead() {
     this.reset();
+    this.musicJeu.stop();
     this.state.start("GameOver");
   }
 }
