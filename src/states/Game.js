@@ -78,27 +78,31 @@ export default class extends Phaser.State  {
     // this.punch = this.game.add.sprite(50, 0, "punch");
     // this.game.physics.arcade.enableBody(this.punch);
     // this.player.addChild(this.punch);
-    
 
+
+
+    this.musicJeu = game.add.audio('music');
+
+    this.musicJeu.play();
   }
 
   update() {
     // player collisions
     this.hitPlatforms = this.game.physics.arcade.collide(this.player, this.platformsLayer);
-    
+
     this.hitWalls = this.game.physics.arcade.collide(this.player, this.wallsLayer);
     this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoin, null, this);
     this.game.physics.arcade.overlap(this.player, this.harmlessCoins, this.collectHarmlessCoin, null, this);
     this.game.physics.arcade.collide(this.player, this.deadLayer, () => this.dead(), null, this);
     this.game.physics.arcade.overlap(this.player, this.bumpers, () => this.player.bump(), null, this);
     this.hitBreakableWalls = this.game.physics.arcade.collide(this.player, this.breakableWalls, this.playerBreakWall, null, this);
-    
+
     if (this.player.state.punch != null && this.player.state.punch.state.isAlive) {
       //this.game.physics.arcade.collide(this.player.state.punch, this.breakableWallsLayer, this.breakWall, null, this);
       this.game.physics.arcade.collide(this.player.state.punch, this.wallsLayer, () => this.player.state.punch.dead(), null, this);
       this.game.physics.arcade.collide(this.player.state.punch, this.platformsLayer, () => this.player.state.punch.dead(), null, this);
       this.game.physics.arcade.overlap(this.player.state.punch, this.breakableWalls, this.breakWall, null, this);
-      
+
     }
 
     if ((this.hitPlatforms && this.player.body.blocked.down && this.player.state.canBump) || this.hitWalls || this.hitBreakableWalls) {
@@ -107,12 +111,15 @@ export default class extends Phaser.State  {
 
     // this.punch.body.velocity.x = 0.1;
     // this.game.physics.arcade.collide(this.punch, this.breakableWallsLayer, this.breakWall, null, this);
-    
+
 
     //this.controlCamera();
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
     if (this.player.x + playerProps.width/2 < this.game.camera.x || this.player.y > this.game.world.height) {
         this.dead();
+    }
+    //this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
+
     }
 
     if (this.cursors.right.isDown && !this.hitWalls) {
@@ -146,7 +153,7 @@ export default class extends Phaser.State  {
 
     if (this.player.canJump()) {
       // player jump
-      
+
       if ((this.hitWalls || this.hitBreakableWalls) && (this.player.body.touching.right || this.player.body.blocked.right || this.player.body.touching.left || this.player.body.blocked.left) ) { // player wall jump
         if (this.player.state.right) {
           this.player.jump(playerProps.wallJump.y);
@@ -248,21 +255,53 @@ export default class extends Phaser.State  {
     coin.kill();
     player.updateCoins(1);
     player.updateMalus(1);
+    this.event = this.effectAdder();
   }
 
   collectHarmlessCoin(player, coin) {
     coin.kill();
     player.updateCoins(1);
+    this.event = game.time.events.pause();
+  }
+
+  setFilter(min, max, index){
+    if(this.player.state.effectList[index].isActivated == true){
+      var temp_eff_found = false;
+      for(var i = min; (temp_eff_found == false) && (i<=max); i++){
+        if(this.player.state.effectList[i].isActivated == false){
+          temp_eff_found = true;
+          return this.player.state.effectList[i].effect();
+        }
+      }
+    }else{
+      return this.player.state.effectList[index].effect();
+    }
+  }
+
+  effectAdder(){
+    if(this.player.state.malus < 3){
+      // a random number between min (inclusive) and max (exclusive)
+      var selector = randomRange(0, 2);
+      return this.setFilter(0, 2, selector);
+    }
+    if(this.player.state.malus > 3 && this.player.state.malus < 6){
+      var selector = randomRange(3, 5);
+      return this.setFilter(3, 5, selector);
+    }
+    if(this.player.state.malus > 6){
+      var selector = randomRange(6, 10);
+      return this.setFilter(6, 10, selector);
+    }
   }
 
   reset() {
-    this.game.world.setBounds(this.oldWBounds.x, this.oldWBounds.y, this.oldWBounds.width, this.oldWBounds.height);    
+    this.game.world.setBounds(this.oldWBounds.x, this.oldWBounds.y, this.oldWBounds.width, this.oldWBounds.height);
   }
 
   dead() {
-    this.player.kill();
     this.reset();
-    this.state.start("GameOver", true, false, this.player);
+    this.musicJeu.stop();
+    this.state.start("GameOver");
   }
 
   breakWall(punch, breakableWall) {
@@ -277,5 +316,3 @@ export default class extends Phaser.State  {
     }
   }
 }
-
-

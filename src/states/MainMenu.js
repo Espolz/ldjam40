@@ -3,18 +3,15 @@ import Phaser from 'phaser'
 export default class extends Phaser.State{
 
   create () {
-    this.createButton(game.world.centerX, game.world.centerY, "playButton",
+    this.createButton(game.world.centerX, game.world.centerY+200, "playButton",
     function(){
       this.state.start('Game');
     });
 
-    this.createButton(game.world.centerX, game.world.centerY + 100, "shopButton",
-    function(){
-      this.state.start('GameOver');
-    });
 
-    this.createControl (game.world.centerX + 300, game.world.centerY);
+    this.createControl (game.world.centerX + 300, game.world.centerY+50);
 
+    this.createTitle(game.world.centerX, game.world.centerY-100);
   }
 
   update () {
@@ -42,4 +39,8 @@ export default class extends Phaser.State{
 
   }
 
+  createTitle (x,y) {
+    var controls = game.add.text(x,y,"Greedy Piggy Bank", {font:"100px Arial", fill :"#666", align:"left"});
+    controls.anchor.setTo(0.5);
+  }
 }

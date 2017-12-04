@@ -30,10 +30,16 @@ export default class extends Phaser.State {
     this.load.image('punch', './assets/images/punch.png');
     this.load.image('breakableWall', './assets/images/harmlessCoin.png');
     this.load.image('bumper', './assets/images/bumper.png');
+    //////
+    this.load.image("List Upgrades",'./assets/images/buttons/upgradeListButton.png');
+    /////
 
     // tilemap
     this.load.tilemap('tilemap', './assets/images/tilemap/tilemap.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.image('tileset', './assets/images/tilemap/tileset.png');
+
+    //son
+    this.load.audio('music', './assets/sons/musique1.mp3');
   }
 
   create () {
