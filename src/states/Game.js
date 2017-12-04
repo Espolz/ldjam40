@@ -321,7 +321,7 @@ export default class extends Phaser.State  {
 
   shop() {
     this.reset();
-    this.musicJeu.stop();
+    this.musicJeu.fadeOut();
     this.state.start("GameOver");
   }
 
