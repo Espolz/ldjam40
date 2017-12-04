@@ -47,7 +47,7 @@ export default class extends Phaser.State  {
     });
 
     if (this.game.state.states['GameOver'].hasOwnProperty('player')) {
-      this.player.state = Object.assign({}, this.game.state.states['GameOver'].player.state);   
+      this.player.state = Object.assign({}, this.game.state.states['GameOver'].player.state);
     }
     this.game.add.existing(this.player);
 
@@ -68,7 +68,7 @@ export default class extends Phaser.State  {
 
     this.musicJeu = game.add.audio('music');
 
-    this.musicJeu.play();
+    this.musicJeu.fadeIn(2000);
   }
 
   update() {
@@ -111,7 +111,7 @@ export default class extends Phaser.State  {
 
     if (this.cursors.down.isDown) {
       if (this.hitBreakableWalls) {
-        this.player.knockBack(4);  
+        this.player.knockBack(4);
       }
       this.player.enableSlide();
     } else {
@@ -315,7 +315,7 @@ export default class extends Phaser.State  {
 
   dead() {
     this.reset();
-    this.musicJeu.stop();
+    this.musicJeu.fadeOut(2000);
     this.state.start("MainMenu");
   }
 
