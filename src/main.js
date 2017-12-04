@@ -10,6 +10,8 @@ import GameOverState from './states/GameOver'
 ////////
 import UpgradeListState from './states/UpgradeList'
 ////////
+import IntroState from './states/Intro'
+import CreditsState from './states/Credits'
 
 import config from './config'
 
@@ -29,6 +31,8 @@ class Game extends Phaser.Game {
     ////////
     this.state.add('UpgradeList', UpgradeListState, false)
     ///////
+    this.state.add('Intro', IntroState, false)
+    this.state.add('Credits', CreditsState, false)
 
     // with Cordova with need to wait that the device is ready so we will call the Boot state in another file
     if (!window.cordova) {

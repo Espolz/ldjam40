@@ -30,6 +30,7 @@ export default class extends Phaser.State {
     this.load.image('punch', './assets/images/punch.png');
     this.load.image('breakableWall', './assets/images/harmlessCoin.png');
     this.load.image('bumper', './assets/images/bumper.png');
+    this.load.image('creditsButton', './assets/images/buttons/playButton.png');
     //////
     this.load.image("List Upgrades",'./assets/images/buttons/upgradeListButton.png');
     /////
@@ -42,6 +43,7 @@ export default class extends Phaser.State {
 
     //son
     this.load.audio('music', './assets/sons/musique1.mp3');
+    this.load.audio('musicIntro', './assets/sons/musicIntro.mp3');
   }
 
   create () {

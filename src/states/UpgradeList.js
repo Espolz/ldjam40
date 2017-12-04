@@ -33,7 +33,7 @@ export default class extends Phaser.State{
     image.anchor.setTo(0.5);
 
     var txt = game.add.text(image.x + 50, image.y , txt , {font:"18px Arial", fill :"#666", align:"right"});
-    txt.anchor.setTo
+    txt.anchor.setTo(0.5);
 
 
   }

@@ -5,13 +5,25 @@ export default class extends Phaser.State{
   create () {
     this.createButton(game.world.centerX, game.world.centerY+200, "playButton",
     function(){
-      this.state.start('Game', true, false, 0);
+      if(this.game.canIntro){
+        this.state.start('Intro');
+      } else {
+        this.state.start('Game');
+      }
     });
+
+    this.createButton(game.world.centerX, game.world.centerY+225, "creditsButton",
+    function(){
+      this.state.start('Credits');
+    })
 
 
     this.createControl (game.world.centerX + 300, game.world.centerY+50);
 
     this.createTitle(game.world.centerX, game.world.centerY-100);
+
+    this.createScore(game.world.centerX-325, game.world.centerY-200, "High score : " );
+    this.createScore(game.world.centerX+300, game.world.centerY-200, "Score : " );
   }
 
   update () {
@@ -41,6 +53,11 @@ export default class extends Phaser.State{
 
   createTitle (x,y) {
     var controls = game.add.text(x,y,"Greedy Piggy Bank", {font:"100px Arial", fill :"#666", align:"left"});
+    controls.anchor.setTo(0.5);
+  }
+
+  createScore (x,y,score) {
+    var controls = game.add.text(x,y,score, {font:"25px Arial", fill :"#666", align:"left"});
     controls.anchor.setTo(0.5);
   }
 }
