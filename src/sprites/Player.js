@@ -138,7 +138,7 @@ export default class Player extends Phaser.Sprite {
 	disableSlide() {
 		if (this.state.bonus.haveSlide && this.state.isSlide) {
 			this.state.isSlide = false;
-			this.angle -= 90;	
+			this.angle -= 90;
 			this.body.setSize(playerProps.width, playerProps.height, 0, 0);
 		}
 	}

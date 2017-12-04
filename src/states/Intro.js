@@ -16,7 +16,7 @@ export default class extends Phaser.State {
   }
 
   createTextIntro (x,y) {
-    var txt = game.add.text(x, y , "Once upon a time, a pig loves money,\n is greediness make him to become a piggy bank and \n start to him, a kind of hallucination" , {font:"30px Arial", fill :"#666", align:"center"});
+    var txt = game.add.text(x, y , "Once upon a time, a pig loved money so much\nthat his greediness turned him into a piggy bank\nand that he started to hallucinate" , {font:"30px Arial", fill :"#666", align:"center"});
     txt.anchor.setTo(0.5);
   }
 
@@ -27,9 +27,5 @@ export default class extends Phaser.State {
     button.anchor.setTo(0.5);
     button.width = 370;
     button.height = 50;
-
-    var txt = game.add.text(button.x, button.y , name , {font:"26px Arial", fill :"#666", align:"right"});
-
-    txt.anchor.setTo(0.5);
   }
 }

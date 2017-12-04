@@ -18,9 +18,11 @@ export default class extends Phaser.State {
     };
     this.game.upgrade1 = new Upgrade(this.game.costGlobal,"Punch");
     this.game.upgrade2 = new Upgrade(this.game.costGlobal,"Slide");
-    this.game.upgrade3 = new Upgrade(this.game.costGlobal,"Shield");
-    this.game.upgrade4 = new Upgrade(this.game.costGlobal,"DoubleJump");
+    this.game.upgrade4 = new Upgrade(2,"Shield");
+    this.game.upgrade3 = new Upgrade(this.game.costGlobal,"Double Jump");
     this.game.upgrade5 = new Upgrade(2,"Pills");
+
+    this.game.tabUpgradeImg = [];
     // this.fontsReady = false
     // this.fontsLoaded = this.fontsLoaded.bind(this)
   }

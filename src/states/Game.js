@@ -47,7 +47,7 @@ export default class extends Phaser.State  {
     });
 
     if (this.game.state.states['GameOver'].hasOwnProperty('player')) {
-      this.player.state = Object.assign({}, this.game.state.states['GameOver'].player.state);   
+      this.player.state = Object.assign({}, this.game.state.states['GameOver'].player.state);
     }
     this.game.add.existing(this.player);
 
@@ -65,6 +65,8 @@ export default class extends Phaser.State  {
 
     this.scoreText = this.game.add.text(16, 16, 'score : 0 meters', { fontSize: '32px', fill: '#000' });
     this.scoreText.fixedToCamera = true;
+
+    this.coinsGame = this.createNbCoins();
 
     this.musicJeu = game.add.audio('music');
 
@@ -107,11 +109,12 @@ export default class extends Phaser.State  {
     //this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
 
     this.updateScore();
+    this.coinsGame.setText(this.player.state.coins + " Coins");
 
 
     if (this.cursors.down.isDown) {
       if (this.hitBreakableWalls) {
-        this.player.knockBack(4);  
+        this.player.knockBack(4);
       }
       this.player.enableSlide();
     } else {
@@ -205,6 +208,21 @@ export default class extends Phaser.State  {
 
       oldRands.push(rand);
     }
+  }
+
+  createNbCoins (){
+
+    var spriteCoins = game.add.sprite(800,32,"iconCoin");
+    spriteCoins.width = 32;
+    spriteCoins.height = 32;
+    spriteCoins.fixedToCamera = true;
+
+    var txtCoins = game.add.text(spriteCoins.x+70,spriteCoins.y+3, this.player.state.coins + " Coins", {font:"20px Arial", fill :"#666", align:"right"});
+
+    spriteCoins.anchor.setTo(0.5);
+    txtCoins.anchor.setTo(0.5);
+    txtCoins.fixedToCamera = true;
+    return txtCoins;
   }
 
   createBreakableWalls() {

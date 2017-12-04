@@ -21,10 +21,6 @@ export default class extends Phaser.State{
     button.anchor.setTo(0.5);
     button.width = 370;
     button.height = 50;
-
-    var txt = game.add.text(button.x, button.y , name , {font:"26px Arial", fill :"#666", align:"right"});
-
-    txt.anchor.setTo(0.5);
   }
 
   createImage (x,y,name,txt){
