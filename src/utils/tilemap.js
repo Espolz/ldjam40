@@ -17,10 +17,3 @@ export function createFromTiledObject(element, group) {
     sprite[key] = element.properties[key];
   });
 }
-
-export function moveTilemapToXY(map, x, y) {
-  map.layers.forEach(function(layer) {
-    layer.x = x;
-    layer.y = y;
-  });
-}

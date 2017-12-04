@@ -27,6 +27,8 @@ export default class extends Phaser.State {
     this.load.image('Pills', './assets/images/upgradeIcon/iconPills.png');
     this.load.image('coin', './assets/images/coin.png');
     this.load.image('harmlessCoin', './assets/images/harmlessCoin.png');
+    this.load.image('punch', './assets/images/punch.png');
+    this.load.image('breakableWall', './assets/images/harmlessCoin.png');
     this.load.image('bumper', './assets/images/bumper.png');
 
     // tilemap
