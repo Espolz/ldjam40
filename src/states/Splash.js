@@ -35,8 +35,10 @@ export default class extends Phaser.State {
     /////
 
     // tilemap
+    this.load.tilemap('level1_0', './assets/images/tilemap/level1_0.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.tilemap('tilemap', './assets/images/tilemap/tilemap.json', null, Phaser.Tilemap.TILED_JSON);
-    this.load.image('tileset', './assets/images/tilemap/tileset_test.png');
+    this.load.image('tileset_test', './assets/images/tilemap/tileset_test.png');
+    this.load.image('tileset', './assets/images/tilemap/tileset.png');
 
     //son
     this.load.audio('music', './assets/sons/musique1.mp3');

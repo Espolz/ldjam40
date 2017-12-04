@@ -4,7 +4,7 @@ import Upgrade from '../model/Upgrade'
 
 export default class extends Phaser.State {
   init () {
-    this.stage.backgroundColor = '#EDEEC9'
+    this.stage.backgroundColor = '#B3E5FC'
     this.game.nbCoinsPlayer = 900
     this.game.costGlobal = 10
     this.game.txtUpgradePrice = 0

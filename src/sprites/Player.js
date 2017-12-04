@@ -10,6 +10,8 @@ export default class Player extends Phaser.Sprite {
 		this.body.gravity.y = playerProps.gravity.y;
 		//this.body.collideWorldBounds = true;
 		this.body.velocity.x = playerProps.speed.x;
+		this.anchor.set(0.5);
+
 
 		//Adding the visual effects that will disturb the player
 		var repetitiveFlash = {
@@ -25,6 +27,7 @@ export default class Player extends Phaser.Sprite {
 			right: true,
 			jumpCount: 0,
 			canBump: true,
+			isSlide: false,
 			bonus: {
 				havePunch : false,
 				haveSlide : false,
@@ -37,7 +40,6 @@ export default class Player extends Phaser.Sprite {
 			effectList: effectList
 		};
 
-
 	}
 
 	update() {
@@ -47,9 +49,13 @@ export default class Player extends Phaser.Sprite {
 			if (!this.state.punch.state.isAlive) {
 				this.game.time.events.add(Phaser.Timer.SECOND * playerProps.punchChargeDelay, this.activePunch, this);
 			} else {
-				this.state.punch.body.velocity.x = 0.1 * (this.state.right ? 1 : -1);
+				//this.state.punch.body.velocity.x = 0.1 * (this.state.right ? 1 : -1);
+			}
+			if (this.state.isSlide) {
+				this.state.punch.dead();
 			}
 		}
+
 	}
 
 	addBonus(bonus) {
@@ -77,15 +83,15 @@ export default class Player extends Phaser.Sprite {
 	}
 
 	canJump() {
-		return this.state.jumpCount < playerProps.maxJumpNb;
+		return this.state.jumpCount < (this.state.bonus.haveDoubleJump ? playerProps.maxJumpNb : 1);
 	}
 
 	punch(dir) {
-		if (this.state.punch === null) {
+		if (this.state.bonus.havePunch && this.state.punch === null && !this.state.isSlide) {
 			this.state.punch = new Punch({
 				game: this.game,
-				x: dir == "right" ? playerProps.punchDist + playerProps.width : -playerProps.punchDist - playerProps.width,
-				y: playerProps.height/2 - punchProps.height/2,
+				x: dir == "right" ? playerProps.punchDist + playerProps.width/2 : -playerProps.punchDist - playerProps.width/2 - punchProps.width,
+				y: -punchProps.width/2,
 				asset: "punch"
 			});
 			this.addChild(this.state.punch);
@@ -114,6 +120,22 @@ export default class Player extends Phaser.Sprite {
 			this.land();
 			this.jump(playerProps.bumperJump);
 			this.game.time.events.add(Phaser.Timer.SECOND * playerProps.bumpDelay, () => this.state.canBump = true, this);
+		}
+	}
+
+	enableSlide() {
+		if (this.state.bonus.haveSlide && !this.state.isSlide) {
+			this.state.isSlide = true;
+			this.angle += 90;
+			this.body.setSize(playerProps.height, playerProps.width/2, -8, 24);
+		}
+	}
+
+	disableSlide() {
+		if (this.state.bonus.haveSlide && this.state.isSlide) {
+			this.state.isSlide = false;
+			this.angle -= 90;	
+			this.body.setSize(playerProps.width, playerProps.height, 0, 0);
 		}
 	}
 }

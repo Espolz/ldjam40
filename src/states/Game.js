@@ -15,7 +15,9 @@ import { randomRange } from '../utils'
 
 export default class extends Phaser.State  {
 
-  init () {}
+  init (level) {
+    this.level = level;
+  }
   preload () {}
 
   create () {
@@ -33,19 +35,21 @@ export default class extends Phaser.State  {
     this.map = this.game.add.tilemap('tilemap');
 
     //the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
-    this.map.addTilesetImage('tileset', 'tileset');
+    this.map.addTilesetImage('tileset', 'tileset_test');
 
     //create layer
     this.backgroundLayer = this.map.createLayer('backgroundLayer');
     this.platformsLayer = this.map.createLayer('platformsLayer');
     this.wallsLayer = this.map.createLayer('wallsLayer');
     this.deadLayer = this.map.createLayer('deadLayer');
+    this.shopLayer = this.map.createLayer('shopLayer');
     //this.bumperLayer = this.map.createLayer('bumperLayer');
     //this.breakableWallsLayer = this.map.createLayer('breakableWallsLayer');
 
     this.map.setCollisionBetween(1, 600, true, 'platformsLayer');
     this.map.setCollisionBetween(1, 600, true, 'wallsLayer');
     this.map.setCollisionBetween(1, 600, true, 'deadLayer');
+    this.map.setCollisionBetween(1, 600, true, 'shopLayer');
     //this.map.setCollisionBetween(1, 600, true, 'bumperLayer');
     //this.map.setCollisionBetween(1, 600, true, 'breakableWallsLayer');
 
@@ -55,17 +59,21 @@ export default class extends Phaser.State  {
 
     this.game.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 
+    this.createCoins(100);
+    this.createBreakableWalls();
+    this.createBumpers();
+
     this.player = new Player({
       game: this.game,
       x: 128,
-      y: this.game.world.height-100,
+      y: this.game.world.height-200,
       asset: "player"
     });
-    this.game.add.existing(this.player);
 
-    this.createCoins(3);
-    this.createBreakableWalls();
-    this.createBumpers();
+    if (this.game.state.states['GameOver'].hasOwnProperty('player')) {
+      this.player.state = Object.assign({}, this.game.state.states['GameOver'].player.state);   
+    }
+    this.game.add.existing(this.player);
 
     this.cursors = this.game.input.keyboard.createCursorKeys();
 
@@ -94,13 +102,14 @@ export default class extends Phaser.State  {
     this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoin, null, this);
     this.game.physics.arcade.overlap(this.player, this.harmlessCoins, this.collectHarmlessCoin, null, this);
     this.game.physics.arcade.collide(this.player, this.deadLayer, () => this.dead(), null, this);
+    this.game.physics.arcade.collide(this.player, this.shopLayer, () => this.shop(), null, this);
     this.game.physics.arcade.overlap(this.player, this.bumpers, () => this.player.bump(), null, this);
     this.hitBreakableWalls = this.game.physics.arcade.collide(this.player, this.breakableWalls, this.playerBreakWall, null, this);
 
     if (this.player.state.punch != null && this.player.state.punch.state.isAlive) {
-      //this.game.physics.arcade.collide(this.player.state.punch, this.breakableWallsLayer, this.breakWall, null, this);
-      this.game.physics.arcade.collide(this.player.state.punch, this.wallsLayer, () => this.player.state.punch.dead(), null, this);
-      this.game.physics.arcade.collide(this.player.state.punch, this.platformsLayer, () => this.player.state.punch.dead(), null, this);
+      // //this.game.physics.arcade.collide(this.player.state.punch, this.breakableWallsLayer, this.breakWall, null, this);
+      // this.game.physics.arcade.collide(this.player.state.punch, this.wallsLayer, () => this.player.state.punch.dead(), null, this);
+      // this.game.physics.arcade.collide(this.player.state.punch, this.platformsLayer, () => this.player.state.punch.dead(), null, this);
       this.game.physics.arcade.overlap(this.player.state.punch, this.breakableWalls, this.breakWall, null, this);
 
     }
@@ -121,6 +130,15 @@ export default class extends Phaser.State  {
     //this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
 
 
+    if (this.cursors.down.isDown) {
+      if (this.hitBreakableWalls) {
+        this.player.knockBack(4);  
+      }
+      this.player.enableSlide();
+    } else {
+      this.player.disableSlide();
+    }
+
 
     if (this.cursors.right.isDown && !this.hitWalls) {
       if (this.player.state.right) {
@@ -133,15 +151,16 @@ export default class extends Phaser.State  {
 
   render () {
     if (__DEV__) {
-      this.game.debug.spriteInfo(this.player, 16, 16);
+      //this.game.debug.spriteInfo(this.player, 16, 16);
       this.game.debug.bodyInfo(this.player, 16, 100);
       this.game.debug.text(`player coins : ${this.player.state.coins}, player malus : ${this.player.state.malus},  player jumpCount : ${this.player.state.jumpCount},  canJump : ${this.player.canJump()}, oldWBounds : ${this.oldWBounds.width}`, 16, 200);
+      this.game.debug.text(`player djump: ${this.player.state.bonus.haveDoubleJump}`, 16, 220);
       // if (this.player.state.punch != null && this.player.state.punch.state.isAlive) {
       //   this.game.debug.bodyInfo(this.player.state.punch, 16, 250);
       //   this.game.debug.body(this.player.state.punch);
       // }
-      // this.game.debug.body(this.punch);
-      // this.game.debug.bodyInfo(this.punch, 16, 250);
+      this.game.debug.body(this.player);
+      this.game.debug.bodyInfo(this.player, 16, 250);
     }
   }
 
@@ -174,10 +193,6 @@ export default class extends Phaser.State  {
   }
 
   createCoins(number) {
-    if (number > 3) {
-      number = 3;
-    }
-
     let result = tilemap.findObjectsByType('coinSpawner', this.map, 'objectsLayer');
     let coin, rand, oldRands = [];
 
@@ -281,7 +296,7 @@ export default class extends Phaser.State  {
   effectAdder(){
     if(this.player.state.malus < 3){
       // a random number between min (inclusive) and max (exclusive)
-      var selector = randomRange(0, 2);
+      var selector = randomRange(1, 1);
       return this.setFilter(0, 2, selector);
     }
     if(this.player.state.malus > 3 && this.player.state.malus < 6){
@@ -299,6 +314,12 @@ export default class extends Phaser.State  {
   }
 
   dead() {
+    this.reset();
+    this.musicJeu.stop();
+    this.state.start("MainMenu");
+  }
+
+  shop() {
     this.reset();
     this.musicJeu.stop();
     this.state.start("GameOver");

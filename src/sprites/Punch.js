@@ -1,4 +1,6 @@
 import Phaser from 'phaser'
+import { playerProps } from './Player'
+
 
 export default class Punch extends Phaser.Sprite {
   constructor ({ game, x, y, asset }) {
