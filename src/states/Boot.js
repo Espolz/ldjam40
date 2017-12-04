@@ -4,16 +4,23 @@ import Upgrade from '../model/Upgrade'
 
 export default class extends Phaser.State {
   init () {
-    this.stage.backgroundColor = '#EDEEC9'
-    this.game.nbCoinsPlayer = 900
-    this.game.costGlobal = 10
-    this.game.txtUpgradePrice = 0
-    this.game.tabUpgrade = []
-    this.game.upgrade1 = new Upgrade(this.game.costGlobal,"Punch")
-    this.game.upgrade2 = new Upgrade(this.game.costGlobal,"Slide")
-    this.game.upgrade3 = new Upgrade(this.game.costGlobal,"Shield")
-    this.game.upgrade4 = new Upgrade(this.game.costGlobal,"DoubleJump")
-    this.game.upgrade5 = new Upgrade(2,"Pills")
+
+    this.game.canIntro = true;
+    this.stage.backgroundColor = '#B3E5FC';
+    this.game.nbCoinsPlayer = 900;
+    this.game.costGlobal = 10;
+    this.game.txtUpgradePrice = 0;
+    this.game.tabUpgrade = [];
+    this.game.level = 0;
+    this.game.score = {
+      last: 0,
+      max: 0
+    };
+    this.game.upgrade1 = new Upgrade(this.game.costGlobal,"Punch");
+    this.game.upgrade2 = new Upgrade(this.game.costGlobal,"Slide");
+    this.game.upgrade3 = new Upgrade(this.game.costGlobal,"Shield");
+    this.game.upgrade4 = new Upgrade(this.game.costGlobal,"DoubleJump");
+    this.game.upgrade5 = new Upgrade(2,"Pills");
     // this.fontsReady = false
     // this.fontsLoaded = this.fontsLoaded.bind(this)
   }

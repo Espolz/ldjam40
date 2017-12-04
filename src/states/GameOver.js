@@ -2,6 +2,8 @@ import Phaser from 'phaser'
 import Upgrade from '../model/Upgrade'
 import Player from '../sprites/Player'
 import Game from './Game'
+import * as tilemap from '../utils/tilemap'
+
 
 export default class extends Phaser.State {
 
@@ -12,6 +14,7 @@ export default class extends Phaser.State {
 
   }
   create () {
+    this.increaseGameLevel();
     this.player = this.game.state.states["Game"].player;
     this.game.upgrade5.isBuy = false;
     this.i = 0;
@@ -116,18 +119,18 @@ export default class extends Phaser.State {
 
   buyUpgrade(upgrade){
     if(!upgrade.isBuy){
-    if (((this.game.nbCoinsPlayer - this.game.costGlobal) >= 0) && (upgrade.name != "Pills")){
-    this.game.nbCoinsPlayer -= this.game.costGlobal;
-    this.nbCoinsTxt.setText(this.game.nbCoinsPlayer + " Coins");
-    this.player.addBonus("have"+upgrade.nom);
-    this.game.costGlobal += 5;
-    upgrade.isBuy = true;
-  } else {
-    this.game.nbCoinsPlayer -= upgrade.cost;
-    this.nbCoinsTxt.setText(this.game.nbCoinsPlayer + " Coins");
-    upgrade.isBuy = true;
-  }
-  }
+      if (((this.game.nbCoinsPlayer - this.game.costGlobal) >= 0) && (upgrade.name != "Pills")){
+        this.game.nbCoinsPlayer -= this.game.costGlobal;
+        this.nbCoinsTxt.setText(this.game.nbCoinsPlayer + " Coins");
+        this.player.addBonus("have"+upgrade.name);
+        this.game.costGlobal += 5;
+        upgrade.isBuy = true;
+      } else {
+        this.game.nbCoinsPlayer -= upgrade.cost;
+        this.nbCoinsTxt.setText(this.game.nbCoinsPlayer + " Coins");
+        upgrade.isBuy = true;
+      }
+    }
   }
 
   createScore (x,y, nbScore){
@@ -146,5 +149,13 @@ export default class extends Phaser.State {
     this.game.debug.text("PlayerCoins :" + this.player.state.coins, 16,64);
     this.game.debug.text("costGlobal : " + this.game.costGlobal, 16, 32);
     this.game.debug.text("i : " + this.i, 16, 48);
+    this.game.debug.text(`player djump: ${this.player.state.bonus.haveDoubleJump}`, 16, 100);
+    this.game.debug.text(`upgrade4: ${this.game.upgrade4.name}`, 16, 130);
+  }
+
+  increaseGameLevel() {
+    if (this.game.level < tilemap.mapsProps.length-1) {
+      this.game.level++;
+    }
   }
 }

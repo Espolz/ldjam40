@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import { spriteSizeFactory } from '../utils'
 import Punch, { punchProps } from './Punch'
+import Shield, { shieldProps } from './Shield'
 
 export default class Player extends Phaser.Sprite {
 	constructor ({ game, x, y, asset }) {
@@ -10,6 +11,13 @@ export default class Player extends Phaser.Sprite {
 		this.body.gravity.y = playerProps.gravity.y;
 		//this.body.collideWorldBounds = true;
 		this.body.velocity.x = playerProps.speed.x;
+		this.anchor.set(0.5);
+
+		// add some animations
+		this.animations.add('idle', [15, 16, 17, 18], 5, true);
+		this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 15, true);
+		this.animations.add('slide', [10, 11, 12, 13], 10, true);
+
 
 		//Adding the visual effects that will disturb the player
 		var repetitiveFlash = { isActivated: false, effect: function(){var fx = game.add.audio('repetitiveFlash'); fx.play(); game.camera.flash(0xffffff, 1000); this.timer = game.time.events.loop(Phaser.Timer.SECOND*2.5, function(){ game.camera.flash(0xffffff, 1000); }, this) }}
@@ -89,40 +97,53 @@ var lightBeam = {
     emitter.start(false, 3000, 100);
 	}.bind(this) }
 
-	this.effectList = [coinBurst, grayScreen, repetitiveFlash, fireScreen, lightBeam, rainbowScreen, screenshake];
-
-	this.state = {
-		left: false,
-		right: true,
-		jumpCount: 0,
-		canBump: true,
-		bonus: {
-			havePunch : false,
-			haveSlide : false,
-			haveDoubleJump : false,
-			haveShield : false,
-		},
-		coins: 0,
-		malus: 0,
-		marge: 0,
-		punch: null,
-		effectList: this.effectList
-	};
+	 var effectList = [coinBurst, grayScreen, repetitiveFlash, fireScreen, lightBeam, rainbowScreen, screenshake];
 
 
-}
+		this.state = {
+			prev: {
+				x: x,
+				y: y
+			},
+			left: false,
+			right: true,
+			jumpCount: 0,
+			canBump: true,
+			canShield: true,
+			isSlide: false,
+			bonus: {
+				havePunch : true,
+				haveSlide : true,
+				haveDoubleJump : true,
+				haveShield : true,
+			},
+			coins: 0,
+			malus: 0,
+			marge: 0,
+			punch: null,
+			shield: null,
+			effectList: effectList
+		};
 
-update() {
-	this.body.velocity.x = this.state.right ? playerProps.speed.x : -playerProps.speed.x;
-
-	if (this.state.punch !== null) {
-		if (!this.state.punch.state.isAlive) {
-			this.game.time.events.add(Phaser.Timer.SECOND * playerProps.punchChargeDelay, this.activePunch, this);
-		} else {
-			this.state.punch.body.velocity.x = 0.1 * (this.state.right ? 1 : -1);
-		}
 	}
-}
+
+	update() {
+		this.body.velocity.x = this.state.right ? playerProps.speed.x : -playerProps.speed.x;
+		this.scale.set((this.state.right ? playerProps.scale : -playerProps.scale), playerProps.scale);
+
+
+		if (this.state.punch) {
+			if (!this.state.punch.state.isAlive) {
+				this.game.time.events.add(Phaser.Timer.SECOND * playerProps.punchChargeDelay, this.activePunch, this);
+			}
+			if (this.state.isSlide) {
+				this.state.punch.dead();
+			}
+		}
+
+		this.enableShield();
+	}
+
 
 addBonus(bonus) {
 	if (this.state.bonus.hasOwnProperty(bonus) && !this.state.bonus[bonus]) {
@@ -153,18 +174,37 @@ land(value = 0) {
 }
 
 canJump() {
-	return this.state.jumpCount < playerProps.maxJumpNb;
+	return this.state.jumpCount < (this.state.bonus.haveDoubleJump ? playerProps.maxJumpNb : 1);
 }
 
 punch(dir) {
-	if (this.state.punch === null) {
+	if (this.state.bonus.havePunch && !this.state.punch && !this.state.isSlide) {
 		this.state.punch = new Punch({
 			game: this.game,
-			x: dir == "right" ? playerProps.punchDist + playerProps.width : -playerProps.punchDist - playerProps.width,
-			y: playerProps.height/2 - punchProps.height/2,
+			x: dir == "right" ? playerProps.punchDist + playerProps.width/2 : -playerProps.punchDist - playerProps.width/2 - punchProps.width,
+			y: 0,
 			asset: "punch"
 		});
 		this.addChild(this.state.punch);
+	}
+}
+
+enableShield() {
+	if (this.state.bonus.haveShield && this.state.canShield) {
+		this.state.canShield = false;
+		this.state.shield = new Shield({
+			game: this.game,
+			x: 0,
+			y: 0,
+			asset: "shield"
+		});
+		this.addChild(this.state.shield);
+	}
+}
+
+disableShield() {
+	if (this.state.bonus.haveShield && !this.state.canShield) {
+		this.state.shield.invicibilityFrame();
 	}
 }
 
@@ -179,20 +219,40 @@ knockBack(pixel = 10) {
 	}
 }
 
-jump(value = playerProps.jump) {
-	this.body.velocity.y = -value;
-	this.state.jumpCount++;
-}
+	jump(value = playerProps.jump) {
+      this.body.velocity.y = -value;
+      this.state.jumpCount++;
+      this.animations.stop();
+      this.frame = 14;
+ 	}
 
-bump() {
-	if (this.state.canBump) {
-		this.state.canBump = false;
-		this.land();
-		this.jump(playerProps.bumperJump);
-		this.game.time.events.add(Phaser.Timer.SECOND * playerProps.bumpDelay, () => this.state.canBump = true, this);
+	bump(player, bumper) {
+		if (this.state.canBump) {
+			bumper.animations.play('bump');
+			this.state.canBump = false;
+			this.land();
+			this.jump(playerProps.bumperJump);
+			this.game.time.events.add(Phaser.Timer.SECOND * playerProps.bumpDelay, () => this.state.canBump = true, this);
+		}
+	}
+
+	enableSlide() {
+		if (this.state.bonus.haveSlide && !this.state.isSlide) {
+			this.state.isSlide = true;
+			this.angle += this.state.right ? 90 : -90;
+			this.body.setSize(playerProps.height, playerProps.width/2, -8, 24);
+		}
+	}
+
+	disableSlide() {
+		if (this.state.bonus.haveSlide && this.state.isSlide) {
+			this.state.isSlide = false;
+			this.angle -= this.state.right ? 90 : -90;
+			this.body.setSize(playerProps.width, playerProps.height, 0, 0);
+		}
 	}
 }
-}
+
 
 let playerProps = {
 	speed: {
@@ -210,7 +270,7 @@ let playerProps = {
 		y: 1000
 	},
 	scrollSpeed: {
-		x: 3
+		x: 3.5
 	},
 	punchDist: 5,
 	punchChargeDelay: 1,
