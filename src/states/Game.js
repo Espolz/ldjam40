@@ -102,7 +102,12 @@ export default class extends Phaser.State  {
     // this.game.physics.arcade.collide(this.punch, this.breakableWallsLayer, this.breakWall, null, this);
 
 
-    this.controlCamera();
+    if (this.player.x > this.game.camera.x + this.game.camera.width*0.25) {
+      this.controlCamera(playerProps.scrollSpeed.x+1);
+    } else {
+      this.controlCamera();
+    }
+
     //this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
     if (this.player.x + playerProps.width/2 < this.game.camera.x || this.player.y > this.game.world.height) {
         this.deadOutside();
