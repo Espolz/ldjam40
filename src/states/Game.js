@@ -49,7 +49,7 @@ export default class extends Phaser.State  {
     if (this.game.state.states['GameOver'].hasOwnProperty('player')) {
       this.player.state = Object.assign({}, this.game.state.states['GameOver'].player.state);
       this.player.state.isSlide = false;
-      this.player.state.punch = null; 
+      this.player.state.punch = null;
     }
     this.game.add.existing(this.player);
 
@@ -70,7 +70,7 @@ export default class extends Phaser.State  {
 
     this.musicJeu = game.add.audio('music');
 
-    this.musicJeu.play();
+    this.musicJeu.fadeIn(2000);
   }
 
   update() {
@@ -112,7 +112,7 @@ export default class extends Phaser.State  {
 
     if (this.cursors.down.isDown) {
       if (this.hitBreakableWalls) {
-        this.player.knockBack(4);  
+        this.player.knockBack(4);
       }
       this.player.enableSlide();
     } else {
@@ -255,7 +255,7 @@ export default class extends Phaser.State  {
 
   createMap() {
     this.map = this.game.add.tilemap(`level${this.game.level}_${randomRange(0,tilemap.mapsProps[this.game.level])}`);
-    
+
     //the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
     this.map.addTilesetImage('tileset', 'tileset');
 
@@ -334,13 +334,13 @@ export default class extends Phaser.State  {
 
   deadOutside() {
     this.reset();
-    this.musicJeu.stop();
+    this.musicJeu.fadeOut(2000);
     this.state.start("MainMenu");
   }
 
   shop() {
     this.reset();
-    this.musicJeu.stop();
+    this.musicJeu.fadeOut();
     this.state.start("GameOver");
   }
 
