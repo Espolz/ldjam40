@@ -13,7 +13,7 @@ export default class extends Phaser.State {
     //
     // load your assets
     //
-    this.load.image('player', './assets/images/pig.png');
+    this.load.spritesheet('player', './assets/images/piggy.png', 32, 48);
     this.load.image('ground', './assets/images/ground.png');
     this.load.image('wall', './assets/images/wall.png');
     this.load.image('playButton','./assets/images/buttons/playButton.png');
@@ -25,18 +25,22 @@ export default class extends Phaser.State {
     this.load.image('Shield', './assets/images/upgradeIcon/iconShield.png');
     this.load.image('Free Coin', './assets/images/upgradeIcon/iconFreeCoin.png');
     this.load.image('Pills', './assets/images/upgradeIcon/iconPills.png');
-    this.load.image('coin', './assets/images/coin.png');
-    this.load.image('harmlessCoin', './assets/images/harmlessCoin.png');
-    this.load.image('punch', './assets/images/punch.png');
-    this.load.image('breakableWall', './assets/images/harmlessCoin.png');
-    this.load.image('bumper', './assets/images/bumper.png');
+    this.load.spritesheet('coin', './assets/images/coin.png', 32, 32);
+    this.load.spritesheet('harmlessCoin', './assets/images/harmlessCoin.png', 32, 32);
+    this.load.spritesheet('punch', './assets/images/punch.png', 32, 32);
+    this.load.spritesheet('breakableWall', './assets/images/breakableWall.png', 32, 32);
+    this.load.spritesheet('bumper', './assets/images/bumper.png', 32, 32);
+    this.load.spritesheet('shield', './assets/images/shield.png', 48, 48);
     this.load.image('creditsButton', './assets/images/buttons/playButton.png');
     //////
     this.load.image("List Upgrades",'./assets/images/buttons/upgradeListButton.png');
     /////
 
     // tilemap
+    this.load.tilemap('level0_0', './assets/images/tilemap/level0_0.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.tilemap('level1_0', './assets/images/tilemap/level1_0.json', null, Phaser.Tilemap.TILED_JSON);
+    this.load.tilemap('level2_0', './assets/images/tilemap/level2_0.json', null, Phaser.Tilemap.TILED_JSON);
+    this.load.tilemap('level3_0', './assets/images/tilemap/level3_0.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.tilemap('tilemap', './assets/images/tilemap/tilemap.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.image('tileset_test', './assets/images/tilemap/tileset_test.png');
     this.load.image('tileset', './assets/images/tilemap/tileset.png');

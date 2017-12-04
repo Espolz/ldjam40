@@ -47,7 +47,9 @@ export default class extends Phaser.State  {
     });
 
     if (this.game.state.states['GameOver'].hasOwnProperty('player')) {
-      this.player.state = Object.assign({}, this.game.state.states['GameOver'].player.state);   
+      this.player.state = Object.assign({}, this.game.state.states['GameOver'].player.state);
+      this.player.state.isSlide = false;
+      this.player.state.punch = null; 
     }
     this.game.add.existing(this.player);
 
@@ -76,14 +78,14 @@ export default class extends Phaser.State  {
     this.hitPlatforms = this.game.physics.arcade.collide(this.player, this.platformsLayer);
 
     this.hitWalls = this.game.physics.arcade.collide(this.player, this.wallsLayer);
-    this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoin, null, this);
-    this.game.physics.arcade.overlap(this.player, this.harmlessCoins, this.collectHarmlessCoin, null, this);
+    //this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoin, null, this);
+    //this.game.physics.arcade.overlap(this.player, this.harmlessCoins, this.collectHarmlessCoin, null, this);
     this.game.physics.arcade.collide(this.player, this.deadLayer, () => this.dead(), null, this);
     this.game.physics.arcade.collide(this.player, this.shopLayer, () => this.shop(), null, this);
-    this.game.physics.arcade.overlap(this.player, this.bumpers, () => this.player.bump(), null, this);
-    this.hitBreakableWalls = this.game.physics.arcade.collide(this.player, this.breakableWalls, this.playerBreakWall, null, this);
+    this.game.physics.arcade.overlap(this.player, this.bumpers, (player, bumper) => this.player.bump(player, bumper), null, this);
+    this.hitBreakableWalls = this.game.physics.arcade.collide(this.player, this.breakableWalls);
 
-    if (this.player.state.punch != null && this.player.state.punch.state.isAlive) {
+    if (this.player.state.punch && this.player.state.punch.state.isAlive) {
       // //this.game.physics.arcade.collide(this.player.state.punch, this.breakableWallsLayer, this.breakWall, null, this);
       // this.game.physics.arcade.collide(this.player.state.punch, this.wallsLayer, () => this.player.state.punch.dead(), null, this);
       // this.game.physics.arcade.collide(this.player.state.punch, this.platformsLayer, () => this.player.state.punch.dead(), null, this);
@@ -99,12 +101,11 @@ export default class extends Phaser.State  {
     // this.game.physics.arcade.collide(this.punch, this.breakableWallsLayer, this.breakWall, null, this);
 
 
-    //this.controlCamera();
-    this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
-    if (this.player.x + playerProps.width/2 < this.game.camera.x || this.player.y > this.game.world.height) {
-        this.dead();
-    }
+    this.controlCamera();
     //this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
+    if (this.player.x + playerProps.width/2 < this.game.camera.x || this.player.y > this.game.world.height) {
+        this.deadOutside();
+    }
 
     this.updateScore();
 
@@ -118,13 +119,19 @@ export default class extends Phaser.State  {
       this.player.disableSlide();
     }
 
-
-    if (this.cursors.right.isDown && !this.hitWalls) {
-      if (this.player.state.right) {
-        this.player.punch("right");
-      } else if (this.player.state.left) {
-        this.player.punch("left");
+    if ((this.hitWalls || this.hitBreakableWalls) && (this.player.body.touching.right || this.player.body.blocked.right || this.player.body.touching.left || this.player.body.blocked.left))  {
+      this.player.animations.play('idle');
+    } else {
+      if (!this.player.state.isSlide) {
+        this.player.animations.play('walk');
+      } else {
+        this.player.animations.play("slide");
       }
+    }
+
+
+    if (this.cursors.right.isDown && !this.hitWalls && this.player.state.right) {
+        this.player.punch("right");
     }
   }
 
@@ -134,12 +141,12 @@ export default class extends Phaser.State  {
       this.game.debug.bodyInfo(this.player, 16, 100);
       this.game.debug.text(`player coins : ${this.player.state.coins}, player malus : ${this.player.state.malus},  player jumpCount : ${this.player.state.jumpCount},  canJump : ${this.player.canJump()}, oldWBounds : ${this.oldWBounds.width}`, 16, 200);
       this.game.debug.text(`player djump: ${this.player.state.bonus.haveDoubleJump}`, 16, 220);
-      // if (this.player.state.punch != null && this.player.state.punch.state.isAlive) {
-      //   this.game.debug.bodyInfo(this.player.state.punch, 16, 250);
-      //   this.game.debug.body(this.player.state.punch);
-      // }
-      this.game.debug.body(this.player);
-      this.game.debug.bodyInfo(this.player, 16, 250);
+      if (this.player.state.punch && this.player.state.punch.state.isAlive) {
+        this.game.debug.bodyInfo(this.player.state.punch, 16, 250);
+        this.game.debug.body(this.player.state.punch);
+      }
+      // this.game.debug.body(this.player);
+      // this.game.debug.bodyInfo(this.player, 16, 250);
     }
   }
 
@@ -153,6 +160,7 @@ export default class extends Phaser.State  {
       // player jump
 
       if ((this.hitWalls || this.hitBreakableWalls) && (this.player.body.touching.right || this.player.body.blocked.right || this.player.body.touching.left || this.player.body.blocked.left) ) { // player wall jump
+        this.player.disableSlide();
         if (this.player.state.right) {
           this.player.jump(playerProps.wallJump.y);
           this.player.body.velocity.x = -playerProps.wallJump.x;
@@ -246,10 +254,10 @@ export default class extends Phaser.State  {
   }
 
   createMap() {
-    //this.map = this.game.add.tilemap(`level${this.game.level}_${randomRange(0,tilemap.mapsProps[this.game.level])}`);
-    this.map = this.game.add.tilemap('tilemap');
+    this.map = this.game.add.tilemap(`level${this.game.level}_${randomRange(0,tilemap.mapsProps[this.game.level])}`);
+    
     //the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
-    this.map.addTilesetImage('tileset', 'tileset_test');
+    this.map.addTilesetImage('tileset', 'tileset');
 
     //create layer
     this.backgroundLayer = this.map.createLayer('backgroundLayer');
@@ -314,6 +322,17 @@ export default class extends Phaser.State  {
   }
 
   dead() {
+    if (this.player.state.bonus.haveShield) {
+      this.player.jump(300);
+      this.player.disableShield();
+    } else {
+      this.reset();
+      this.musicJeu.stop();
+      this.state.start("MainMenu");
+    }
+  }
+
+  deadOutside() {
     this.reset();
     this.musicJeu.stop();
     this.state.start("MainMenu");
@@ -327,12 +346,12 @@ export default class extends Phaser.State  {
 
   breakWall(punch, breakableWall) {
     //this.map.removeTile(tile.x, tile.y, this.breakableWallsLayer).destroy();
-    breakableWall.kill();
+    breakableWall.dead();
     this.player.knockBack(10);
   }
 
   playerBreakWall(player, tile) {
-    if (this.player.state.punch !== null && this.player.state.punch.state.isAlive) {
+    if (this.player.state.punch && this.player.state.punch.state.isAlive) {
       this.breakWall(null, tile);
     }
   }

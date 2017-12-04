@@ -11,7 +11,7 @@ export default class extends Phaser.State {
     this.game.costGlobal = 10;
     this.game.txtUpgradePrice = 0;
     this.game.tabUpgrade = [];
-    this.game.level = 1;
+    this.game.level = 0;
     this.game.score = {
       last: 0,
       max: 0
