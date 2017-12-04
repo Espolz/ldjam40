@@ -112,10 +112,10 @@ var lightBeam = {
 			canShield: true,
 			isSlide: false,
 			bonus: {
-				havePunch : true,
-				haveSlide : true,
-				haveDoubleJump : true,
-				haveShield : true,
+				havePunch : false,
+				haveSlide : false,
+				haveDoubleJump : false,
+				haveShield : false,
 			},
 			coins: 0,
 			malus: 0,
@@ -247,11 +247,7 @@ knockBack(pixel = 10) {
 	disableSlide() {
 		if (this.state.bonus.haveSlide && this.state.isSlide) {
 			this.state.isSlide = false;
-<<<<<<< HEAD
-			this.angle -= 90;
-=======
 			this.angle -= this.state.right ? 90 : -90;
->>>>>>> 44a1153aceb44434539b5d3f6c7d513a5c4efe3e
 			this.body.setSize(playerProps.width, playerProps.height, 0, 0);
 		}
 	}

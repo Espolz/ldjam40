@@ -32,14 +32,9 @@ export default class extends Phaser.State {
     this.load.image('Shield', './assets/images/upgradeIcon/iconShield.png');
     this.load.image('Free Coin', './assets/images/upgradeIcon/iconFreeCoin.png');
     this.load.image('Pills', './assets/images/upgradeIcon/iconPills.png');
-<<<<<<< HEAD
     this.load.image('iconCoin', './assets/images/iconCoin.png');
-    this.load.image('harmlessCoin', './assets/images/harmlessCoin.png');
-    this.load.image('punch', './assets/images/punch.png');
-    this.load.image('breakableWall', './assets/images/harmlessCoin.png');
-    this.load.image('bumper', './assets/images/bumper.png');
 
-=======
+
     this.load.spritesheet('coin', './assets/images/coin.png', 32, 32);
     this.load.spritesheet('harmlessCoin', './assets/images/harmlessCoin.png', 32, 32);
     this.load.spritesheet('punch', './assets/images/punch.png', 32, 32);
@@ -50,7 +45,6 @@ export default class extends Phaser.State {
     //////
     this.load.image("List Upgrades",'./assets/images/buttons/upgradeListButton.png');
     /////
->>>>>>> 44a1153aceb44434539b5d3f6c7d513a5c4efe3e
 
     // tilemap
     this.load.tilemap('level0_0', './assets/images/tilemap/level0_0.json', null, Phaser.Tilemap.TILED_JSON);

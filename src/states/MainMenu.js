@@ -19,7 +19,6 @@ export default class extends Phaser.State{
     })
 
 
-    this.createControl (game.world.centerX + 300, game.world.centerY+50);
 
     this.createTitle(game.world.centerX, game.world.centerY-100);
 
@@ -48,13 +47,6 @@ export default class extends Phaser.State{
     button.anchor.setTo(0.5);
     button.width = 140;
     button.height = 50;
-
-  }
-
-  createControl (x,y) {
-
-    var controls = game.add.text(x,y,"CONTROL : \n Space : expendable \n Upper arrow : Jump", {font:"20px Arial", fill :"#666", align:"left"});
-    controls.anchor.setTo(0.5);
 
   }
 

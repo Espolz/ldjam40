@@ -49,11 +49,8 @@ export default class extends Phaser.State  {
 
     if (this.game.state.states['GameOver'].hasOwnProperty('player')) {
       this.player.state = Object.assign({}, this.game.state.states['GameOver'].player.state);
-<<<<<<< HEAD
-=======
       this.player.state.isSlide = false;
       this.player.state.punch = null;
->>>>>>> 44a1153aceb44434539b5d3f6c7d513a5c4efe3e
     }
     this.game.add.existing(this.player);
 
@@ -72,13 +69,10 @@ export default class extends Phaser.State  {
     this.scoreText = this.game.add.text(16, 16, 'score : 0 meters', { fontSize: '32px', fill: '#000' });
     this.scoreText.fixedToCamera = true;
 
-<<<<<<< HEAD
     this.coinsGame = this.createNbCoins();
 
-    this.musicJeu = game.add.audio('music');
-=======
+
     this.musicJeu = game.add.audio('music', 0.3);
->>>>>>> 44a1153aceb44434539b5d3f6c7d513a5c4efe3e
 
     this.musicJeu.fadeIn(2000);
   }
@@ -88,8 +82,8 @@ export default class extends Phaser.State  {
     this.hitPlatforms = this.game.physics.arcade.collide(this.player, this.platformsLayer);
 
     this.hitWalls = this.game.physics.arcade.collide(this.player, this.wallsLayer);
-    //this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoin, null, this);
-    //this.game.physics.arcade.overlap(this.player, this.harmlessCoins, this.collectHarmlessCoin, null, this);
+    this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoin, null, this);
+    this.game.physics.arcade.overlap(this.player, this.harmlessCoins, this.collectHarmlessCoin, null, this);
     this.game.physics.arcade.collide(this.player, this.deadLayer, () => this.dead(), null, this);
     this.game.physics.arcade.collide(this.player, this.shopLayer, () => this.shop(), null, this);
     this.game.physics.arcade.overlap(this.player, this.bumpers, (player, bumper) => this.player.bump(player, bumper), null, this);
