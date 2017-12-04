@@ -23,6 +23,10 @@ export default class Player extends Phaser.Sprite {
 
 		var effectList = [repetitiveFlash, screenshake];
 		this.state = {
+			prev: {
+				x: x,
+				y: y
+			},
 			left: false,
 			right: true,
 			jumpCount: 0,

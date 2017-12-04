@@ -5,7 +5,8 @@ export default class extends Phaser.State{
   create () {
     this.createButton(game.world.centerX, game.world.centerY+200, "playButton",
     function(){
-      this.state.start('Game', true, false, 0);
+      this.game.score.last = 0;
+      this.state.start('Game');
     });
 
 

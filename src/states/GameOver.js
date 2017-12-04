@@ -12,6 +12,7 @@ export default class extends Phaser.State {
 
   }
   create () {
+    this.increaseGameLevel();
     this.player = this.game.state.states["Game"].player;
     this.game.upgrade5.isBuy = false;
     this.i = 0;
@@ -148,5 +149,11 @@ export default class extends Phaser.State {
     this.game.debug.text("i : " + this.i, 16, 48);
     this.game.debug.text(`player djump: ${this.player.state.bonus.haveDoubleJump}`, 16, 100);
     this.game.debug.text(`upgrade4: ${this.game.upgrade4.name}`, 16, 130);
+  }
+
+  increaseGameLevel() {
+    if (this.game.level < tilemap.mapsProps.length-1) {
+      this.game.level++;
+    }
   }
 }

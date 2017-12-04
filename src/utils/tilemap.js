@@ -17,3 +17,7 @@ export function createFromTiledObject(element, group) {
     sprite[key] = element.properties[key];
   });
 }
+
+
+export const mapsProps = [0, 0, 0, 0]; //rangeMax
+export const mapsCoins = [20, 35, 50, 60];
