@@ -13,7 +13,7 @@ export default class extends Phaser.State {
     //
     // load your assets
     //
-    this.load.image('player', './assets/images/pig.png');
+    this.load.spritesheet('player', './assets/images/piggy.png', 32, 48);
     this.load.image('ground', './assets/images/ground.png');
     this.load.image('wall', './assets/images/wall.png');
     this.load.image('playButton','./assets/images/buttons/playButton.png');
@@ -32,21 +32,55 @@ export default class extends Phaser.State {
     this.load.image('Shield', './assets/images/upgradeIcon/iconShield.png');
     this.load.image('Free Coin', './assets/images/upgradeIcon/iconFreeCoin.png');
     this.load.image('Pills', './assets/images/upgradeIcon/iconPills.png');
+<<<<<<< HEAD
     this.load.image('iconCoin', './assets/images/iconCoin.png');
     this.load.image('harmlessCoin', './assets/images/harmlessCoin.png');
     this.load.image('punch', './assets/images/punch.png');
     this.load.image('breakableWall', './assets/images/harmlessCoin.png');
     this.load.image('bumper', './assets/images/bumper.png');
 
+=======
+    this.load.spritesheet('coin', './assets/images/coin.png', 32, 32);
+    this.load.spritesheet('harmlessCoin', './assets/images/harmlessCoin.png', 32, 32);
+    this.load.spritesheet('punch', './assets/images/punch.png', 32, 32);
+    this.load.spritesheet('breakableWall', './assets/images/breakableWall.png', 32, 32);
+    this.load.spritesheet('bumper', './assets/images/bumper.png', 32, 32);
+    this.load.spritesheet('shield', './assets/images/shield.png', 48, 48);
+    this.load.image('creditsButton', './assets/images/buttons/playButton.png');
+    //////
+    this.load.image("List Upgrades",'./assets/images/buttons/upgradeListButton.png');
+    /////
+>>>>>>> 44a1153aceb44434539b5d3f6c7d513a5c4efe3e
 
     // tilemap
+    this.load.tilemap('level0_0', './assets/images/tilemap/level0_0.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.tilemap('level1_0', './assets/images/tilemap/level1_0.json', null, Phaser.Tilemap.TILED_JSON);
+    this.load.tilemap('level2_0', './assets/images/tilemap/level2_0.json', null, Phaser.Tilemap.TILED_JSON);
+    this.load.tilemap('level3_0', './assets/images/tilemap/level3_0.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.tilemap('tilemap', './assets/images/tilemap/tilemap.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.image('tileset_test', './assets/images/tilemap/tileset_test.png');
     this.load.image('tileset', './assets/images/tilemap/tileset.png');
 
     //son
     this.load.audio('music', './assets/sons/musique1.mp3');
+    this.load.audio('screenshake', 'assets/sons/screenshake.mp3');
+    this.load.audio('coinBurst', 'assets/sons/coinDecoys.mp3');
+    this.load.audio('fireScreen', 'assets/sons/hellFire.mp3');
+    this.load.audio('grayScreen', 'assets/sons/grayScreen.mp3');
+    this.load.audio('lightBeam', 'assets/sons/lightBeam.mp3');
+    this.load.audio('rainbowScreen', 'assets/sons/rainbowVision.mp3');
+    this.load.audio('repetitiveFlash', 'assets/sons/whiteFlash.mp3');
+
+    //Scripts JS
+    game.load.script('gray', 'https://cdn.rawgit.com/photonstorm/phaser/master/v2/filters/Gray.js');
+    game.load.script('filter', 'https://cdn.rawgit.com/photonstorm/phaser/master/v2/filters/Marble.js');
+    game.load.script('lightBeam', 'https://cdn.rawgit.com/photonstorm/phaser/master/v2/filters/LightBeam.js');
+    game.load.script('fire', 'https://cdn.rawgit.com/photonstorm/phaser/master/v2/filters/Fire.js');
+    game.load.script('BlurX', 'https://cdn.rawgit.com/photonstorm/phaser/master/v2/filters/BlurX.js');
+    game.load.script('BlurY', 'https://cdn.rawgit.com/photonstorm/phaser/master/v2/filters/BlurY.js');
+
+    //Video
+    game.load.video('glitch', './assets/video/glitch.mp4')
     this.load.audio('musicIntro', './assets/sons/musicIntro.mp3');
   }
 

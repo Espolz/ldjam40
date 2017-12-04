@@ -5,6 +5,8 @@ export default class Bumper extends Phaser.Sprite {
     super(game, x, y, asset);
     this.game.physics.arcade.enableBody(this);
     this.body.immovable = true;
+    this.animations.add('bump', [1, 2, 3, 4, 5], 20, false);
+    this.frame = 1;
   }
 }
 
