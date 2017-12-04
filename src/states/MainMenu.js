@@ -10,6 +10,7 @@ export default class extends Phaser.State{
       } else {
         this.state.start('Game');
       }
+      this.game.score.last = 0;
     });
 
     this.createButton(game.world.centerX, game.world.centerY+225, "creditsButton",

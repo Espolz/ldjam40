@@ -15,8 +15,7 @@ import { randomRange } from '../utils'
 
 export default class extends Phaser.State  {
 
-  init (level) {
-    this.level = level;
+  init () {
   }
   preload () {}
 
@@ -32,34 +31,11 @@ export default class extends Phaser.State  {
     this.breakableWalls = this.game.add.group();
     this.bumpers = this.game.add.group();
 
-    this.map = this.game.add.tilemap('tilemap');
-
-    //the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
-    this.map.addTilesetImage('tileset', 'tileset_test');
-
-    //create layer
-    this.backgroundLayer = this.map.createLayer('backgroundLayer');
-    this.platformsLayer = this.map.createLayer('platformsLayer');
-    this.wallsLayer = this.map.createLayer('wallsLayer');
-    this.deadLayer = this.map.createLayer('deadLayer');
-    this.shopLayer = this.map.createLayer('shopLayer');
-    //this.bumperLayer = this.map.createLayer('bumperLayer');
-    //this.breakableWallsLayer = this.map.createLayer('breakableWallsLayer');
-
-    this.map.setCollisionBetween(1, 600, true, 'platformsLayer');
-    this.map.setCollisionBetween(1, 600, true, 'wallsLayer');
-    this.map.setCollisionBetween(1, 600, true, 'deadLayer');
-    this.map.setCollisionBetween(1, 600, true, 'shopLayer');
-    //this.map.setCollisionBetween(1, 600, true, 'bumperLayer');
-    //this.map.setCollisionBetween(1, 600, true, 'breakableWallsLayer');
-
-    //resizes the game world to match the layer dimensions
-    //tilemap.moveTilemapToXY(this.map, 250, 0);
-    //this.backgroundLayer.resizeWorld();
+    this.createMap();
 
     this.game.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 
-    this.createCoins(100);
+    this.createCoins(tilemap.mapsCoins[this.game.level]);
     this.createBreakableWalls();
     this.createBumpers();
 
@@ -87,7 +63,8 @@ export default class extends Phaser.State  {
     // this.game.physics.arcade.enableBody(this.punch);
     // this.player.addChild(this.punch);
 
-
+    this.scoreText = this.game.add.text(16, 16, 'score : 0 meters', { fontSize: '32px', fill: '#000' });
+    this.scoreText.fixedToCamera = true;
 
     this.musicJeu = game.add.audio('music');
 
@@ -128,6 +105,8 @@ export default class extends Phaser.State  {
         this.dead();
     }
     //this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
+
+    this.updateScore();
 
 
     if (this.cursors.down.isDown) {
@@ -266,6 +245,27 @@ export default class extends Phaser.State  {
     group.add(bumper);
   }
 
+  createMap() {
+    //this.map = this.game.add.tilemap(`level${this.game.level}_${randomRange(0,tilemap.mapsProps[this.game.level])}`);
+    this.map = this.game.add.tilemap('tilemap');
+    //the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
+    this.map.addTilesetImage('tileset', 'tileset_test');
+
+    //create layer
+    this.backgroundLayer = this.map.createLayer('backgroundLayer');
+    this.platformsLayer = this.map.createLayer('platformsLayer');
+    this.wallsLayer = this.map.createLayer('wallsLayer');
+    this.deadLayer = this.map.createLayer('deadLayer');
+    this.shopLayer = this.map.createLayer('shopLayer');
+    //this.bumperLayer = this.map.createLayer('bumperLayer');
+    //this.breakableWallsLayer = this.map.createLayer('breakableWallsLayer');
+
+    this.map.setCollisionBetween(1, 600, true, 'platformsLayer');
+    this.map.setCollisionBetween(1, 600, true, 'wallsLayer');
+    this.map.setCollisionBetween(1, 600, true, 'deadLayer');
+    this.map.setCollisionBetween(1, 600, true, 'shopLayer');
+  }
+
   collectCoin(player, coin) {
     coin.kill();
     player.updateCoins(1);
@@ -335,5 +335,18 @@ export default class extends Phaser.State  {
     if (this.player.state.punch !== null && this.player.state.punch.state.isAlive) {
       this.breakWall(null, tile);
     }
+  }
+
+  updateScore() {
+    if (this.player.state.prev.x < this.player.x) {
+      this.game.score.last += this.player.x - this.player.state.prev.x;
+      this.game.score.last = Math.floor(this.game.score.last);
+    }
+    if (this.game.score.last > this.game.score.max) {
+      this.game.score.max = this.game.score.last;
+    }
+    this.player.state.prev.x = this.player.x;
+    this.player.state.prev.y = this.player.y;
+    this.scoreText.text = `score : ${this.game.score.last} meters`;
   }
 }
