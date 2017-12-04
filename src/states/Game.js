@@ -19,6 +19,7 @@ export default class extends Phaser.State  {
   preload () {}
 
   create () {
+    this.malusCpt = 0;
     this.oldWBounds = Object.assign({}, this.game.world.bounds);
 
     this.walls = this.game.add.group();
@@ -81,7 +82,7 @@ export default class extends Phaser.State  {
 
 
 
-    this.musicJeu = game.add.audio('music');
+    this.musicJeu = game.add.audio('music', 0.3);
 
     this.musicJeu.play();
   }
@@ -116,7 +117,7 @@ export default class extends Phaser.State  {
     //this.controlCamera();
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
     if (this.player.x + playerProps.width/2 < this.game.camera.x || this.player.y > this.game.world.height) {
-        this.dead();
+      this.dead();
     }
     //this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
 
@@ -254,44 +255,45 @@ export default class extends Phaser.State  {
   collectCoin(player, coin) {
     coin.kill();
     player.updateCoins(1);
-    player.updateMalus(1);
-    this.event = this.effectAdder();
+    if(player.state.marge > 0){
+      player.state.marge--;
+    }else{
+      this.effectAdder();
+      player.updateMalus(1);
+    }
   }
 
   collectHarmlessCoin(player, coin) {
     coin.kill();
     player.updateCoins(1);
-    this.event = game.time.events.pause();
+  }
+
+  eatPill(player) {
+    player.updateMarge(-2);
   }
 
   setFilter(min, max, index){
+    if(this.malusCpt < this.player.state.effectList.length){
     if(this.player.state.effectList[index].isActivated == true){
       var temp_eff_found = false;
-      for(var i = min; (temp_eff_found == false) && (i<=max); i++){
+      for(var i = min; (temp_eff_found == false) && (i <= max); i++){
         if(this.player.state.effectList[i].isActivated == false){
           temp_eff_found = true;
-          return this.player.state.effectList[i].effect();
+          this.player.state.effectList[i].isActivated = true;
+          this.player.state.effectList[i].effect();
         }
       }
     }else{
-      return this.player.state.effectList[index].effect();
+      this.player.state.effectList[index].isActivated = true;
+      this.player.state.effectList[index].effect();
     }
+    this.malusCpt++;
+  }
   }
 
   effectAdder(){
-    if(this.player.state.malus < 3){
-      // a random number between min (inclusive) and max (exclusive)
-      var selector = randomRange(0, 2);
-      return this.setFilter(0, 2, selector);
-    }
-    if(this.player.state.malus > 3 && this.player.state.malus < 6){
-      var selector = randomRange(3, 5);
-      return this.setFilter(3, 5, selector);
-    }
-    if(this.player.state.malus > 6){
-      var selector = randomRange(6, 10);
-      return this.setFilter(6, 10, selector);
-    }
+      this.selector = randomRange(0, this.player.state.effectList.length-1);
+      this.setFilter(0, this.player.state.effectList.length-1, this.selector);
   }
 
   reset() {
@@ -314,5 +316,9 @@ export default class extends Phaser.State  {
     if (this.player.state.punch !== null && this.player.state.punch.state.isAlive) {
       this.breakWall(null, tile);
     }
+  }
+
+  render(){
+    this.game.debug.text("Test :" + this.selector, 16,16);
   }
 }
