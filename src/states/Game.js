@@ -120,7 +120,7 @@ export default class extends Phaser.State  {
     }
     //this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
 
-    }
+    
 
     if (this.cursors.right.isDown && !this.hitWalls) {
       if (this.player.state.right) {
