@@ -246,10 +246,10 @@ export default class extends Phaser.State  {
   }
 
   createMap() {
-    this.map = this.game.add.tilemap(`level${this.game.level}_${randomRange(0,tilemap.mapsProps[this.game.level])}`);
-
+    //this.map = this.game.add.tilemap(`level${this.game.level}_${randomRange(0,tilemap.mapsProps[this.game.level])}`);
+    this.map = this.game.add.tilemap('tilemap');
     //the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
-    this.map.addTilesetImage('tileset', 'tileset');
+    this.map.addTilesetImage('tileset', 'tileset_test');
 
     //create layer
     this.backgroundLayer = this.map.createLayer('backgroundLayer');

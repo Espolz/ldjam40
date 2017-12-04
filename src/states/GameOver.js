@@ -2,6 +2,8 @@ import Phaser from 'phaser'
 import Upgrade from '../model/Upgrade'
 import Player from '../sprites/Player'
 import Game from './Game'
+import * as tilemap from '../utils/tilemap'
+
 
 export default class extends Phaser.State {
 
