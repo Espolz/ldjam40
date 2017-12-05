@@ -4,7 +4,7 @@
 This game has been made using a premade project using JavaScript ES6 : [Right here !](https://github.com/lean/phaser-es6-webpack)
 
 #### Exploitation systems :
-* [Ubuntu Gnome version 16.04](https://ubuntugnome.org/). A free OS that has a lot of advantages (if you know how to use it)
+* [Ubuntu Gnome version 16.10](https://ubuntugnome.org/). A free OS that has a lot of advantages (if you know how to use it)
 * Windows 7
 * Windows 10
 
