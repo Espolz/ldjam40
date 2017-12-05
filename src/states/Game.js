@@ -20,6 +20,7 @@ export default class extends Phaser.State  {
   preload () {}
 
   create () {
+
     this.malusCpt = 0;
     this.oldWBounds = Object.assign({}, this.game.world.bounds);
 
@@ -376,7 +377,6 @@ export default class extends Phaser.State  {
   shop() {
     this.reset();
     this.game.gameMusic.stop();
-    this.game.shopMusic.play();
     this.game.saturateGameMusic.stop();
     this.state.start("GameOver");
   }

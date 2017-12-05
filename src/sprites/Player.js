@@ -120,7 +120,7 @@ var lightBeam = {
     emitter.start(false, 3000, 100);
 	}.bind(this) }
 
-	 var effectList = [/*coinBurst, grayScreen, repetitiveFlash, fireScreen, lightBeam, rainbowScreen, screenshake,*/ badMusic];
+	 var effectList = [coinBurst, grayScreen, repetitiveFlash, fireScreen, lightBeam, rainbowScreen, screenshake, badMusic];
 
 
 		this.state = {
@@ -140,7 +140,7 @@ var lightBeam = {
 				haveDoubleJump : false,
 				haveShield : false,
 			},
-			coins: 50,
+			coins: 0,
 			malus: 0,
 			marge: 0,
 			punch: null,

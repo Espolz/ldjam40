@@ -30,15 +30,22 @@ export default class extends Phaser.State {
     this.createUpgradeButton(game.world.centerX+144, game.world.centerY, "Pills", () => this.buyUpgrade(this.game.upgrade5),this.i);
     this.createButton(game.world.centerX, game.world.centerY + 200, "nextLevelButton",
     function(){
+      game.shopMusic.stop();
       this.state.start('Game');
+
     });
     this.createButton(game.world.centerX, game.world.centerY + 127, "upgradesInfoButton",
     function(){
+      game.shopMusic.stop();
       this.state.start('UpgradeList');
     });
 
     this.createScore(game.world.centerX-325, game.world.centerY-200, "High score : " + this.game.score.max );
     this.createScore(game.world.centerX-325, game.world.centerY-170, "Score : " + this.game.score.last);
+
+    this.game.shopMusic = this.game.add.audio('shopMusic');
+    this.game.shopMusic.play();
+
   }
 
   update () {
