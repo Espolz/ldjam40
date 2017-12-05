@@ -25,7 +25,7 @@ export default class extends Phaser.State {
     this.nbCoinsTxt = this.createNbCoins(game.world.centerX + 300 , game.world.centerY - 200, "iconCoin", this.player.state.coins);
     this.btn1 = this.createUpgradeButton(game.world.centerX-144, game.world.centerY, "Punch", () => this.buyUpgrade(this.game.upgrade1),this.i);
     this.btn2 = this.createUpgradeButton(game.world.centerX-72, game.world.centerY, "Slide", () => this.buyUpgrade(this.game.upgrade2),this.i);
-    this.btn3 = this.createUpgradeButton(game.world.centerX, game.world.centerY, "Double Jump", () => this.buyUpgrade(this.game.upgrade3),this.i);
+    this.btn3 = this.createUpgradeButton(game.world.centerX, game.world.centerY, "DoubleJump", () => this.buyUpgrade(this.game.upgrade3),this.i);
     this.createUpgradeButton(game.world.centerX+72, game.world.centerY, "Shield", () => this.buyUpgrade(this.game.upgrade4),this.i);
     this.createUpgradeButton(game.world.centerX+144, game.world.centerY, "Pills", () => this.buyUpgrade(this.game.upgrade5),this.i);
     this.createButton(game.world.centerX, game.world.centerY + 200, "nextLevelButton",
@@ -42,9 +42,11 @@ export default class extends Phaser.State {
   }
 
   update () {
-    for(var index = 0; index <= game.tabUpgrade.length-1;  index++){
+    for(var index = 0; index <= game.tabUpgradeImg.length-1;  index++){
       if(this.tabVarUpgrade[index].isBuy == false){
+        if((this.tabVarUpgrade[index].name != "Pills") && (this.tabVarUpgrade[index].name != "Shield")){
         game.tabUpgrade[index].setText(this.game.costGlobal.toString() + " Coins");
+      }
       }else{
         var x = game.tabUpgradeImg[index].x;
         var y = game.tabUpgradeImg[index].y;
@@ -55,7 +57,9 @@ export default class extends Phaser.State {
         game.tabUpgradeImg[index].width = 32;
         game.tabUpgradeImg[index].height = 32;
         //game.tabUpgradeImg[index] = game.tabUpgrade[index].key + " get";
+        if((this.tabVarUpgrade[index].name != "Pills") && (this.tabVarUpgrade[index].name != "Shield")){
         game.tabUpgrade[index].setText("Sold Out");
+      }
       }
     }
   }
@@ -74,7 +78,7 @@ export default class extends Phaser.State {
 
   createUpgradeButton (x,y,name, callback, i) {
 
-    if (name != "Pills" && name != "Shield"){
+    if ((name != "Pills") && (name != "Shield")){
     game.tabUpgradeImg[i] = game.add.button(x,y,name,callback,this,1,0);
     game.tabUpgradeImg[i].anchor.setTo(0.5);
     game.tabUpgradeImg[i].width = 32;
@@ -84,18 +88,19 @@ export default class extends Phaser.State {
     game.tabUpgrade[i] = game.add.text(game.tabUpgradeImg[i].x,game.tabUpgradeImg[i].y + 60, this.game.costGlobal + " Coins", {font:"12px Arial", fill :"#666", align:"center"});
     txtUpgrade.anchor.setTo(0.5);
     game.tabUpgrade[i].anchor.setTo(0.5);
-    this.i++
+    this.i++;
   }else{
-    var buttonUpgrade = game.add.button(x,y,name,callback,this,1,0);
+    game.tabUpgradeImg[i] = game.add.button(x,y,name,callback,this,1,0);
 
-    buttonUpgrade.anchor.setTo(0.5);
-    buttonUpgrade.width = 32;
-    buttonUpgrade.height = 32;
+    game.tabUpgradeImg[i].anchor.setTo(0.5);
+    game.tabUpgradeImg[i].width = 32;
+    game.tabUpgradeImg[i].height = 32;
 
-    var txtUpgrade = game.add.text(buttonUpgrade.x,buttonUpgrade.y + 40, name, {font:"12px Arial", fill :"#666", align:"center"});
-    var txtUpgradePills = game.add.text(buttonUpgrade.x,buttonUpgrade.y + 60, 2 + " Coins", {font:"12px Arial", fill :"#666", align:"center"});
+    var txtUpgrade = game.add.text(game.tabUpgradeImg[i].x,game.tabUpgradeImg[i].y + 40, name, {font:"12px Arial", fill :"#666", align:"center"});
+    var txtUpgradePills = game.add.text(game.tabUpgradeImg[i].x,game.tabUpgradeImg[i].y + 60, 2 + " Coins", {font:"12px Arial", fill :"#666", align:"center"});
     txtUpgrade.anchor.setTo(0.5);
     txtUpgradePills.anchor.setTo(0.5);
+    this.i++;
   }
   }
 
@@ -137,7 +142,7 @@ export default class extends Phaser.State {
          this.nbCoinsTxt.setText(this.player.state.coins + " Coins");
          upgrade.isBuy = true;
           if(upgrade.name == "Pills"){
-            this.player.state.malus -= 2;
+            this.player.state.marge = 2;
           } if (upgrade.name == "Shield"){
             this.player.addBonus("have"+upgrade.name);
           }
@@ -160,12 +165,12 @@ export default class extends Phaser.State {
   */
 
   render () {
-    this.game.debug.text("Test :" + this.game.nbCoinsPlayer, 16,16);
+    /*this.game.debug.text("Test :" + this.game.nbCoinsPlayer, 16,16);
     this.game.debug.text("PlayerCoins :" + this.player.state.coins, 16,64);
     this.game.debug.text("costGlobal : " + this.game.costGlobal, 16, 32);
     this.game.debug.text("i : " + this.i, 16, 48);
     this.game.debug.text(`player djump: ${this.player.state.bonus.haveDoubleJump}`, 16, 100);
-    this.game.debug.text(`upgrade4: ${this.game.upgrade4.name}`, 16, 130);
+    this.game.debug.text(`upgrade4: ${this.game.upgrade4.name}`, 16, 130);*/
   }
 
   increaseGameLevel() {

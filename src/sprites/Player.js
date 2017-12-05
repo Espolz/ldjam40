@@ -44,6 +44,7 @@ export default class Player extends Phaser.Sprite {
 var lightBeam = {
 	isActivated: false,
 	effect: function(){
+
 		var lightbeam_bg = game.add.sprite(0, 0);
 		lightbeam_bg.width = 960;
 		lightbeam_bg.height = 540;
@@ -117,7 +118,7 @@ var lightBeam = {
 				haveDoubleJump : false,
 				haveShield : false,
 			},
-			coins: 0,
+			coins: 50,
 			malus: 0,
 			marge: 0,
 			punch: null,

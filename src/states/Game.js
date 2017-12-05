@@ -52,6 +52,9 @@ export default class extends Phaser.State  {
       this.player.state.isSlide = false;
       this.player.state.punch = null;
     }
+    for(var i = 0; i < this.player.state.effectList.length; i++){
+      this.player.state.effectList[i].isActivated = false;
+    }
     this.game.add.existing(this.player);
 
     this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -146,10 +149,10 @@ export default class extends Phaser.State  {
   }
 
   render () {
-    if (__DEV__) {
+    /*if (__DEV__) {
       //this.game.debug.spriteInfo(this.player, 16, 16);
       this.game.debug.bodyInfo(this.player, 16, 100);
-      this.game.debug.text(`player coins : ${this.player.state.coins}, player malus : ${this.player.state.malus},  player jumpCount : ${this.player.state.jumpCount},  canJump : ${this.player.canJump()}, oldWBounds : ${this.oldWBounds.width}`, 16, 200);
+      this.game.debug.text(`player coins : ${this.player.state.coins}, player malus : ${this.malusCpt}, marge : ${this.player.state.marge}  player jumpCount : ${this.player.state.jumpCount},  canJump : ${this.player.canJump()}, oldWBounds : ${this.oldWBounds.width}`, 16, 200);
       this.game.debug.text(`player djump: ${this.player.state.bonus.haveDoubleJump}`, 16, 220);
       if (this.player.state.punch && this.player.state.punch.state.isAlive) {
         this.game.debug.bodyInfo(this.player.state.punch, 16, 250);
@@ -158,6 +161,7 @@ export default class extends Phaser.State  {
       // this.game.debug.body(this.player);
       // this.game.debug.bodyInfo(this.player, 16, 250);
     }
+    */
   }
 
   controlCamera(cameraSpeed = playerProps.scrollSpeed.x)  {
@@ -280,7 +284,7 @@ export default class extends Phaser.State  {
 
   createMap() {
     this.map = this.game.add.tilemap(`level${this.game.level}_${randomRange(0,tilemap.mapsProps[this.game.level])}`);
-
+    //this.map =  this.game.add.tilemap("tilemap");
     //the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
     this.map.addTilesetImage('tileset', 'tileset');
 
@@ -320,6 +324,7 @@ export default class extends Phaser.State  {
   }
 
   setFilter(min, max, index){
+
     if(this.malusCpt < this.player.state.effectList.length){
     if(this.player.state.effectList[index].isActivated == true){
       var temp_eff_found = false;
@@ -340,7 +345,12 @@ export default class extends Phaser.State  {
 
   effectAdder(){
       this.selector = randomRange(0, this.player.state.effectList.length-1);
+      if(this.game.pillsEffect != 0){
       this.setFilter(0, this.player.state.effectList.length-1, this.selector);
+    } else {
+      this.game.pillsEffect--;
+    }
+
   }
 
   reset() {

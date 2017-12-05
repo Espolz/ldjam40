@@ -25,13 +25,15 @@ export default class extends Phaser.State {
     this.load.image('upgradesInfoButton', './assets/images/buttons/upgradesinfoButton.png');
     this.load.image('Punch', './assets/images/upgradeIcon/iconPunch.png');
     this.load.image('Punch get', './assets/images/upgradeIcon/iconPunchGet.png');
-    this.load.image('Double Jump', './assets/images/upgradeIcon/iconDoubleJump.png');
-    this.load.image('Double Jump get', './assets/images/upgradeIcon/iconDoubleJumpGet.png');
+    this.load.image('DoubleJump', './assets/images/upgradeIcon/iconDoubleJump.png');
+    this.load.image('DoubleJump get', './assets/images/upgradeIcon/iconDoubleJumpGet.png');
     this.load.image('Slide', './assets/images/upgradeIcon/iconSlide.png');
     this.load.image('Slide get', './assets/images/upgradeIcon/iconSlideGet.png');
     this.load.image('Shield', './assets/images/upgradeIcon/iconShield.png');
+    this.load.image('Shield get', './assets/images/upgradeIcon/iconShieldGet.png');
     this.load.image('Free Coin', './assets/images/upgradeIcon/iconFreeCoin.png');
     this.load.image('Pills', './assets/images/upgradeIcon/iconPills.png');
+    this.load.image('Pills get', './assets/images/upgradeIcon/iconPillsGet.png');
     this.load.image('iconCoin', './assets/images/iconCoin.png');
 
 
@@ -42,9 +44,7 @@ export default class extends Phaser.State {
     this.load.spritesheet('bumper', './assets/images/bumper.png', 32, 32);
     this.load.spritesheet('shield', './assets/images/shield.png', 48, 48);
     this.load.image('creditsButton', './assets/images/buttons/playButton.png');
-    //////
-    this.load.image("List Upgrades",'./assets/images/buttons/upgradeListButton.png');
-    /////
+
 
     // tilemap
     this.load.tilemap('level0_0', './assets/images/tilemap/level0_0.json', null, Phaser.Tilemap.TILED_JSON);
