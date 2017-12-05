@@ -30,6 +30,7 @@ export default class Player extends Phaser.Sprite {
 
 
 
+
 		//Adding the visual effects that will disturb the player
 		var repetitiveFlash = { isActivated: false, effect: function(){var fx = game.add.audio('repetitiveFlash'); fx.play(); game.camera.flash(0xffffff, 1000); this.timer = game.time.events.loop(Phaser.Timer.SECOND*2.5, function(){ game.camera.flash(0xffffff, 1000); }, this) }}
 
@@ -42,6 +43,7 @@ export default class Player extends Phaser.Sprite {
 			effect: function(){
 				game.gameMusic.stop();
 				game.saturateGameMusic.play();
+				var fx = game.add.audio('badMusic'); fx.play();
 			}
 		}
 
