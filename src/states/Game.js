@@ -74,10 +74,7 @@ export default class extends Phaser.State  {
 
     this.coinsGame = this.createNbCoins();
 
-
-    this.musicJeu = game.add.audio('music', 0.3);
-
-    this.musicJeu.fadeIn(2000);
+    this.game.gameMusic.fadeIn(2000);
   }
 
   update() {
@@ -363,20 +360,24 @@ export default class extends Phaser.State  {
       this.player.disableShield();
     } else {
       this.reset();
-      this.musicJeu.stop();
+      this.game.gameMusic.stop();
+      this.game.saturateGameMusic.stop();
       this.state.start("MainMenu");
     }
   }
 
   deadOutside() {
     this.reset();
-    this.musicJeu.fadeOut(2000);
+    this.game.gameMusic.stop();
+    this.game.saturateGameMusic.stop();
     this.state.start("MainMenu");
   }
 
   shop() {
     this.reset();
-    this.musicJeu.fadeOut();
+    this.game.gameMusic.stop();
+    this.game.shopMusic.play();
+    this.game.saturateGameMusic.stop();
     this.state.start("GameOver");
   }
 

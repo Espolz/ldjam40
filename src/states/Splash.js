@@ -56,7 +56,11 @@ export default class extends Phaser.State {
     this.load.image('tileset', './assets/images/tilemap/tileset.png');
 
     //son
-    this.load.audio('music', './assets/sons/musique1.mp3');
+    this.load.audio('gameMusic', './assets/sons/gameMusic.mp3');
+    this.load.audio('saturateGameMusic', './assets/sons/saturateGameMusic.mp3');
+    this.load.audio('coinSound', './assets/sons/coinSound.mp3');
+    this.load.audio('jumpSound', './assets/sons/jumpSound.mp3');
+    this.load.audio('shopMusic', './assets/sons/shopMusic.mp3');
     this.load.audio('screenshake', 'assets/sons/screenshake.mp3');
     this.load.audio('coinBurst', 'assets/sons/coinDecoys.mp3');
     this.load.audio('fireScreen', 'assets/sons/hellFire.mp3');
@@ -64,6 +68,7 @@ export default class extends Phaser.State {
     this.load.audio('lightBeam', 'assets/sons/lightBeam.mp3');
     this.load.audio('rainbowScreen', 'assets/sons/rainbowVision.mp3');
     this.load.audio('repetitiveFlash', 'assets/sons/whiteFlash.mp3');
+    this.load.audio('badMusic', 'assets/sons/badMusic.mp3');
 
     //Scripts JS
     game.load.script('gray', 'https://cdn.rawgit.com/photonstorm/phaser/master/v2/filters/Gray.js');

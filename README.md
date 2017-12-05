@@ -1,104 +1,30 @@
-# Phaser + ES6 + Webpack.
-#### A bootstrap project to create games with Phaser + ES6 + Webpack.
+# Greedy Piggy Bank readme
 
-![Phaser+ES6+Webpack](https://raw.githubusercontent.com/lean/phaser-es6-webpack/master/assets/images/phaser-es6-webpack.jpg)
+## How did you made this game ?
+This game has been made using a premade project using JavaScript ES6 : [Right here !](https://github.com/lean/phaser-es6-webpack)
 
-[![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
+#### Exploitation systems :
+* [Ubuntu Gnome version 16.04](https://ubuntugnome.org/). A free OS that has a lot of advantages (if you know how to use it)
+* Windows 7
+* Windows 10
 
+#### Browsers :
+* [Firefox 57.0](https://www.mozilla.org/en-US/firefox/) (A more optimised browser, that respects your privacy)
+* [Google Chrome](www.google.fr/chrome) and it's open source sibling, [Chromium !](https://www.chromium.org/)
 
-## Features
-- ESLINT with JavaScript Standard Style configuration
-- Next generation of Javascript
-- Browsers are automatically updated as you change project files
-- Webpack ready
-- WebFont Loader
+#### Text editors :
+* [Atom](http://atom.io), the text editor developped at GitHub. Runs smoothly, supports any file format and gives a graphical interface to manage your git.
 
-## Typescript 
-If you need typescript support checkout the ```typescript``` branch. Thanks to @MatsMaker
+#### Server-related softwares :
+* [cmder](http://cmder.net/), a software that brings the Linux Bash to Windows (worked on 7 and 10). Useful if you're used to the Linux shell.
+* [Node.js](https://nodejs.org/en/), that's why the game works way better on Chrome and Chromium (because node.js is based on their software). More optimised that a simple Apache server.
+* [Phaser](https://phaser.io/), to make Web games easily !
 
-# Setup
-You'll need to install a few things before you have a working copy of the project.
+#### Other softwares :
+* [Tiled](http://www.mapeditor.org/), to make our maps using our own sprites.
+* [PyxelEdit](http://pyxeledit.com/), to make our assets and animations. Non-free :/
+* [Ableton](https://www.ableton.com/), to make our music. Non-free too :/
+* [Audacity](http://www.audacityteam.org/download/), to make the sounds that required voice acting. Ugly UI but does exactly what you want it to do.
+* [itch.io](http://www.itch.io), the best website to upload your indie games, especially for game jams. Perfect for experimental or _really_ indie stuff.
 
-## 1. Clone this repo:
-
-Navigate into your workspace directory.
-
-Run:
-
-```git clone https://github.com/lean/phaser-es6-webpack.git```
-
-## 2. Install node.js and npm:
-
-https://nodejs.org/en/
-
-
-## 3. Install dependencies (optionally you can install [yarn](https://yarnpkg.com/)):
-
-Navigate to the cloned repo's directory.
-
-Run:
-
-```npm install``` 
-
-or if you chose yarn, just run ```yarn```
-
-## 4. Run the development server:
-
-Run:
-
-```npm run dev```
-
-This will run a server so you can run the game in a browser. It will also start a watch process, so you can change the source and the process will recompile and refresh the browser automatically.
-
-To run the game, open your browser and enter http://localhost:3000 into the address bar.
-
-
-## Build for deployment:
-
-Run:
-
-```npm run deploy```
-
-This will optimize and minimize the compiled bundle.
-
-## Deploy for cordova:
-Make sure to uncomment the cordova.js file in the src/index.html and to update config.xml with your informations. (name/description...)
-
-More informations about the cordova configuration:
-https://cordova.apache.org/docs/en/latest/config_ref/
-
-There is 3 platforms actually tested and supported : 
-- browser
-- ios
-- android
-
-First run (ios example):
-
-```
-npm run cordova
-cordova platform add ios
-cordova run ios
-```
-
-Update (ios example):
-
-```
-npm run cordova
-cordova platform update ios
-cordova run ios
-```
-
-This will optimize and minimize the compiled bundle.
-
-## Credits
-Big thanks to these great repos:
-
-https://github.com/belohlavek/phaser-es6-boilerplate
-
-https://github.com/cstuncsik/phaser-es6-demo
-
-## Contributors
-
-https://github.com/RenaudROHLINGER
-
-# ldjam40
++ Git and GitHub obviously.

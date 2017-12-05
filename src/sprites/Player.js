@@ -18,6 +18,19 @@ export default class Player extends Phaser.Sprite {
 		this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 15, true);
 		this.animations.add('slide', [10, 11, 12, 13], 10, true);
 
+		// add music
+		this.game.gameMusic = this.game.add.audio('gameMusic', 0.3, true);
+		this.game.saturateGameMusic = this.game.add.audio('saturateGameMusic', 0.6, true);
+		this.game.coinSound = this.game.add.audio('coinSound', 0.4, false);
+		this.game.jumpSound = this.game.add.audio('jumpSound', 0.08, false);
+
+
+
+
+
+
+
+
 
 		//Adding the visual effects that will disturb the player
 		var repetitiveFlash = { isActivated: false, effect: function(){var fx = game.add.audio('repetitiveFlash'); fx.play(); game.camera.flash(0xffffff, 1000); this.timer = game.time.events.loop(Phaser.Timer.SECOND*2.5, function(){ game.camera.flash(0xffffff, 1000); }, this) }}
@@ -25,6 +38,15 @@ export default class Player extends Phaser.Sprite {
 		var screenshake = { isActivated: false, effect: function(){var fx = game.add.audio('screenshake'); fx.play(); this.timer = game.time.events.loop(Phaser.Timer.SECOND, function(){ game.camera.shake(0.05, 999); }, this) }}
 
 		var grayScreen = { isActivated: false, effect: function(){var fx = game.add.audio('grayScreen'); fx.play(); var gray = game.add.filter('Gray'); game.world.filters = [gray]; }}
+
+		var badMusic = {
+			isActivated: false,
+			effect: function(){
+				game.gameMusic.stop();
+				game.saturateGameMusic.play();
+				var fx = game.add.audio('badMusic'); fx.play();
+			}
+		}
 
 		var rainbowScreen = {
 			isActivated: false,
@@ -98,7 +120,7 @@ var lightBeam = {
     emitter.start(false, 3000, 100);
 	}.bind(this) }
 
-	 var effectList = [coinBurst, grayScreen, repetitiveFlash, fireScreen, lightBeam, rainbowScreen, screenshake];
+	 var effectList = [/*coinBurst, grayScreen, repetitiveFlash, fireScreen, lightBeam, rainbowScreen, screenshake,*/ badMusic];
 
 
 		this.state = {
@@ -160,6 +182,7 @@ removeBonus(bonus) {
 
 updateCoins(nbCoins) {
 	this.state.coins += nbCoins;
+	this.game.coinSound.play();
 }
 
 updateMalus(nbMalus) {
@@ -225,6 +248,7 @@ knockBack(pixel = 10) {
       this.state.jumpCount++;
       this.animations.stop();
       this.frame = 14;
+			this.game.jumpSound.play();
  	}
 
 	bump(player, bumper) {
