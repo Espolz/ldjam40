@@ -68,6 +68,7 @@ export default class extends Phaser.State {
     this.load.audio('lightBeam', 'assets/sons/lightBeam.mp3');
     this.load.audio('rainbowScreen', 'assets/sons/rainbowVision.mp3');
     this.load.audio('repetitiveFlash', 'assets/sons/whiteFlash.mp3');
+    this.load.audio('badMusic', 'assets/sons/badMusic.mp3');
 
     //Scripts JS
     game.load.script('gray', 'https://cdn.rawgit.com/photonstorm/phaser/master/v2/filters/Gray.js');

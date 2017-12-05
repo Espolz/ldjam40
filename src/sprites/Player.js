@@ -23,7 +23,8 @@ export default class Player extends Phaser.Sprite {
 		this.game.saturateGameMusic = this.game.add.audio('saturateGameMusic', 0.6, true);
 		this.game.coinSound = this.game.add.audio('coinSound', 0.4, false);
 		this.game.jumpSound = this.game.add.audio('jumpSound', 0.08, false);
-		this.game.shopMusic = this.game.add.audio('shopMusic', 0.3, true);
+
+
 
 
 
@@ -118,7 +119,7 @@ var lightBeam = {
     emitter.start(false, 3000, 100);
 	}.bind(this) }
 
-	 var effectList = [coinBurst, grayScreen, repetitiveFlash, fireScreen, lightBeam, rainbowScreen, screenshake, badMusic];
+	 var effectList = [/*coinBurst, grayScreen, repetitiveFlash, fireScreen, lightBeam, rainbowScreen, screenshake,*/ badMusic];
 
 
 		this.state = {
