@@ -25,6 +25,6 @@ This game has been made using a premade project using JavaScript ES6 : [Right he
 * [PyxelEdit](http://pyxeledit.com/), to make our assets and animations. Non-free :/
 * [Ableton](https://www.ableton.com/), to make our music. Non-free too :/
 * [Audacity](http://www.audacityteam.org/download/), to make the sounds that required voice acting. Ugly UI but does exactly what you want it to do.
-* [itch.io](http://www.itch.io), the best website to upload your indie games, especially for game jams. Perfect for experimental or __really__ indie stuff.
+* [itch.io](http://www.itch.io), the best website to upload your indie games, especially for game jams. Perfect for experimental or _really_ indie stuff.
 
 + Git and GitHub obviously.
