@@ -3,9 +3,6 @@
 ## How did you made this game ?
 This game has been made using a premade project using JavaScript ES6 : [Right here !](https://github.com/lean/phaser-es6-webpack)
 
-### List of tools we used to make our game :
-Obviously, we used Git and GitHub, but you already knew that given that you are on our GitHub page...
-
 #### Exploitation systems :
 * [Ubuntu Gnome version 16.04](https://ubuntugnome.org/)
 * Windows 7
@@ -29,3 +26,5 @@ Obviously, we used Git and GitHub, but you already knew that given that you are 
 * [Ableton](https://www.ableton.com/), to make our music.
 * [Audacity](http://www.audacityteam.org/download/), to make the sounds that required voice acting.
 * [itch.io](http://www.itch.io), the best website to upload your indie games, especially for game jams.
+
++ Git and GitHub obviously.
