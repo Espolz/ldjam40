@@ -20,11 +20,11 @@ Obviously, we used Git and GitHub, but you already knew that given that you are 
 
 #### Server-related softwares :
 * [cmder](http://cmder.net/), a software that brings the Linux Bash to Windows (worked on 7 and 10)
-* [Node.js](https://nodejs.org/en/), that's why the game works way better on Chrome and Chromium
+* [Node.js](https://nodejs.org/en/), that's why the game works way better on Chrome and Chromium (because node.js is based on their software).
 * [Phaser](https://phaser.io/), to make Web games easily !
 
 #### Other softwares :
-* [Tiled](http://www.mapeditor.org/), to make our maps using or own sprites
+* [Tiled](http://www.mapeditor.org/), to make our maps using or own sprites.
 * [PyxelEdit](http://pyxeledit.com/), to make our assets and animations.
 * [Ableton](https://www.ableton.com/), to make our music.
 * [Audacity](http://www.audacityteam.org/download/), to make the sounds that required voice acting.
