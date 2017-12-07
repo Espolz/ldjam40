@@ -360,6 +360,7 @@ export default class extends Phaser.State  {
       this.player.jump(300);
       this.player.disableShield();
     } else {
+      this.game.level = 0;
       this.reset();
       this.game.gameMusic.stop();
       this.game.saturateGameMusic.stop();
