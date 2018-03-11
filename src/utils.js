@@ -4,7 +4,6 @@ export const centerGameObjects = (objects) => {
   })
 }
 
-
 export function spriteSizeFactory(spriteProps, width = 0, height = 0) {
 	const scale = spriteProps.scale || 1;
 	return Object.assign({}, spriteProps, {

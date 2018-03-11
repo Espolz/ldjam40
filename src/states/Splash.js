@@ -73,12 +73,12 @@ export default class extends Phaser.State {
     this.load.audio('badMusic', 'assets/sons/badMusic.mp3');
 
     //Scripts JS
-    game.load.script('gray', 'https://cdn.rawgit.com/photonstorm/phaser/master/v2/filters/Gray.js');
-    game.load.script('filter', 'https://cdn.rawgit.com/photonstorm/phaser/master/v2/filters/Marble.js');
-    game.load.script('lightBeam', 'https://cdn.rawgit.com/photonstorm/phaser/master/v2/filters/LightBeam.js');
-    game.load.script('fire', 'https://cdn.rawgit.com/photonstorm/phaser/master/v2/filters/Fire.js');
-    game.load.script('BlurX', 'https://cdn.rawgit.com/photonstorm/phaser/master/v2/filters/BlurX.js');
-    game.load.script('BlurY', 'https://cdn.rawgit.com/photonstorm/phaser/master/v2/filters/BlurY.js');
+    game.load.script('gray', 'assets/filters/Gray.js');
+    game.load.script('filter', 'assets/filters/Marble.js');
+    game.load.script('lightBeam', 'assets/filters/LightBeam.js');
+    game.load.script('fire', 'assets/filters/Fire.js');
+    game.load.script('BlurX', 'assets/filters/BlurX.js');
+    game.load.script('BlurY', 'assets/filters/BlurY.js');
 
     //Video
     game.load.video('glitch', './assets/video/glitch.mp4')
